@@ -81,7 +81,7 @@ Route::prefix('admins')->middleware('auth:admin')->group(function () {
         AdminController::class,'showHomePage'
     ])->name('admin.home');
 
-    Route::prefix('create')->group(function () {
+    Route::prefix('confirm')->group(function () {
         Route::get('Students',[
             StudentController::class,'showNewStudents'
         ])->name('admin.new.students');
@@ -97,6 +97,26 @@ Route::prefix('admins')->middleware('auth:admin')->group(function () {
         Route::patch('Instructors/{id}',[
             InstructorController::class,'confirmation'
         ])->name('admin.new.instructors.confirm');
+
+    });
+
+
+    Route::prefix('edit')->group(function () {
+        Route::get('Students/{id}',[
+            StudentController::class,'edit'
+        ])->name('admin.edit.students');
+
+        Route::put('Students',[
+            StudentController::class,'update'
+        ])->name('admin.edit.students.update');
+
+        Route::get('Instructors/{id}',[
+            InstructorController::class,'edit'
+        ])->name('admin.edit.instructors');
+
+        Route::put('Instructors/',[
+            InstructorController::class,'update'
+        ])->name('admin.edit.instructors.update');
 
     });
 

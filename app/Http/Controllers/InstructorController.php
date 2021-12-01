@@ -3,31 +3,109 @@
 namespace App\Http\Controllers;
 
 use App\Models\Instructor;
+use App\Models\Student;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 
 class InstructorController extends Controller
 {
-    public function showNewInstructors(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
+
+    public function edit($id): Application|Factory|View
+    {
+        if($users = Instructor::query()->where('id',$id)->get()){
+        foreach($users as $user)
+        return view('dashboard.admins.instructors.edit',['user' => $user]);
+        }
+            return redirect()->back();
+    }
+
+    public function update(Request $request)
+    {
+        if($request->password){
+            $validate = Validator::make($request->all(),[
+                'name' => ['required', 'string', 'max:255'],
+                'email' => ['required', 'string', 'email', 'max:255',Rule::unique('instructors')->ignore($request->id)],
+                'password' => ['required', 'string', 'min:8', 'confirmed'],
+                'phone' => ['required',Rule::unique('instructors')->ignore($request->id),'regex:/09(1[0-9]|9[0-9]|0[0-9]|3[1-9]|2[1-9])-?[0-9]{3}-?[0-9]{4}/'],
+            ])->validated();
+
+            if(Instructor::query()->where('id',$request->id)->update([
+                'name' => $validate['name'],
+                'email' => $validate['email'],
+                'password' => Hash::make($validate['password']),
+                'phone' => $validate['phone'],
+            ])){
+                return redirect(route('admin.search.instructors.form'))
+                    ->with('success', 'Updated successfully');
+
+            }
+        }else{
+            $validate = Validator::make($request->all(),[
+                'name' => ['required', 'string', 'max:255'],
+                'email' => ['required', 'string', 'email', 'max:255',Rule::unique('instructors')->ignore($request->id)],
+                'phone' => ['required',Rule::unique('instructors')->ignore($request->id),'string','regex:/09(1[0-9]|9[0-9]|0[0-9]|3[1-9]|2[1-9])-?[0-9]{3}-?[0-9]{4}/'],
+            ])->validated();
+            if(Instructor::query()->where('id',$request->id)->update([
+                'name' => $validate['name'],
+                'email' => $validate['email'],
+                'phone' => $validate['phone'],
+            ])){
+                return redirect(route('admin.search.instructors.form'))
+                    ->with('success', 'Updated successfully');
+
+            }
+        }
+    }
+
+    public function showNewInstructors(): Factory|View|Application
     {
         $instructors = Instructor::query()->where('is_confirmed',null)->get();
         return view('dashboard.admins.instructors.new',['instructors' => $instructors]);
     }
 
-    public function showSearchForm(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
+    public function showSearchForm(): Factory|View|Application
     {
         return view('dashboard.admins.instructors.search');
     }
 
+    /**
+     * @throws ValidationException
+     */
     public function search(Request $request)
     {
 
+
+        if($request->searchMethod == 'id'){
+            $validate = Validator::make($request->all(),[
+                'search' => ['required', 'integer', 'max:255'],
+                'searchMethod' => ['required','string'],
+            ])->validated();
+
+            $results = Instructor::query()->where('id',$validate['search'])->get();
+        }else{
+            $validate = Validator::make($request->all(),[
+                'search' => ['required', 'string', 'max:255'],
+                'searchMethod' => ['required','string', ],
+            ])->validated();
+            $results = Instructor::query()->where($validate['searchMethod'],'regexp',$validate['search'])->get();
+        }
+
+
+
+        return view('dashboard.admins.instructors.search',['results' => $results]);
     }
 
-    public function logout(Request $request): \Illuminate\Routing\Redirector|\Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse
+    public function logout(Request $request): Redirector|Application|RedirectResponse
     {
         Auth::logout();
 
@@ -38,7 +116,7 @@ class InstructorController extends Controller
         return redirect('/');
     }
 
-    public function confirmation(Request $request,$id): \Illuminate\Routing\Redirector|\Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse
+    public function confirmation(Request $request,$id): Redirector|Application|RedirectResponse
     {
         if($request->confirmation == 'accept'){
             Instructor::query()->where('id',$id)
@@ -51,7 +129,7 @@ class InstructorController extends Controller
     }
 
 
-    public function showRegisterForm(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
+    public function showRegisterForm(): Factory|View|Application
     {
         return view('register.instructors');
     }
@@ -80,12 +158,12 @@ class InstructorController extends Controller
         }
     }
 
-    public function showLoginForm(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
+    public function showLoginForm(): Factory|View|Application
     {
         return view('login.instructors');
     }
 
-    public function login(Request $request): \Illuminate\Routing\Redirector|\Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse
+    public function login(Request $request): Redirector|Application|RedirectResponse
     {
 
         $credentials = ['email' => $request->post('email'), 'password' => $request->post('password'),'is_confirmed' => '1','is_active' => '1'];

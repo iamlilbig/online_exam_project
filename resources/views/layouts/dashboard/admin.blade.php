@@ -14,7 +14,7 @@
     <body class="sb-nav-fixed">
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
             <!-- Navbar Brand-->
-            <a class="navbar-brand ps-3" href="{{route('admin.home')}}">@yield('pageName')</a>
+            <a class="navbar-brand ps-3" href="javascript:window.location.reload(true)">@yield('pageName')</a>
             <!-- Sidebar Toggle-->
             <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
 
@@ -87,16 +87,16 @@
                     </div>
                 </nav>
             </div>
-            <div id="layoutSidenav_content" class="bg-Secondary">
+            <div id="layoutSidenav_content" class="bg-secondary">
                 <main >
                     <div class="container-fluid px-4">
                         @yield('content')
                     </div>
                 </main>
-                <footer class="py-4 bg-secondary mt-auto">
+                <footer class="py-4 bg-dark  mt-auto">
                     <div class="container-fluid px-4">
                         <div class="d-flex align-items-center justify-content-between small">
-                            <div class="text-dark">Copyright &copy; lilbig 2021</div>
+                            <div class="text-secondary">Copyright &copy; lilbig 2021</div>
                             <div>
                             </div>
                         </div>
