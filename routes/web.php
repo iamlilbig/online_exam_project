@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
-})->name('home')->middleware('auth:student');
+})->name('home');
 
 Route::prefix('login')->middleware('guest')->group(function () {
     Route::get('/', function () {

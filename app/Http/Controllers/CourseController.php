@@ -101,11 +101,11 @@ class CourseController extends Controller
 
     public function addStudent(Request $request,$id)
     {
-        if (CourseStudent::query()->where('course_id' , $id)->where('student_id',$request->student_id,)) {
-            return redirect()
-                ->back()
-                ->with('error', 'student already exist!');
-        }
+//        if (CourseStudent::query()->where('course_id' , $id)->where('student_id',$request->student_id,)) {
+//            return redirect()
+//                ->back()
+//                ->with('error', 'student already exist!');
+//        }
             CourseStudent::create([
             'course_id' => $id,
             'student_id' => $request->student_id,
