@@ -22,6 +22,37 @@ update instructors
                 <input class="form-control" id="inputPhone" name="phone" value="{{$user->phone}}" type="text" placeholder="phone number" />
                 <label for="inputPhone">phone number</label>
             </div>
+            @if($user->is_active == '1')
+                <div class="form-floating mb-3">
+                    <div class="form-check">
+                      <input class="form-check-input" value="1" type="radio" name="is_active" id="flexRadioDefault1" checked>
+                      <label class="form-check-label" for="flexRadioDefault1">
+                        active
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" value="0" type="radio" name="is_active" id="flexRadioDefault2">
+                      <label class="form-check-label" for="flexRadioDefault2">
+                        inactive
+                      </label>
+                    </div>
+                </div>
+            @else
+                <div class="form-floating mb-3">
+                    <div class="form-check">
+                      <input class="form-check-input" value="1" type="radio" name="is_active" id="flexRadioDefault1">
+                      <label class="form-check-label" for="flexRadioDefault1">
+                        active
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" value="0" type="radio" name="is_active" id="flexRadioDefault2" checked>
+                      <label class="form-check-label" for="flexRadioDefault2">
+                        inactive
+                      </label>
+                    </div>
+                </div>
+            @endif
             <div class="form-floating mb-3">
                 <input class="form-control" id="inputPassword" name="password" type="password" placeholder="Password" />
                 <label for="inputPassword">Password</label>
@@ -36,6 +67,24 @@ update instructors
         </form>
     </div>
 </div>
+@if (\Session::has('success'))
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-5">
+                <div class="card shadow-lg border-0 rounded-lg mt-5 bg-dark text-white">
+                    <div class="bg-dark card-header">
+                        <div class="alert alert-success">
+                            <ul>
+                                <li>{!! \Session::get('success') !!}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+@endif
+
 @if($errors->any())
     <div class="container">
         <div class="row justify-content-center">

@@ -1,6 +1,6 @@
 @extends('layouts.dashboard.admin')
 @section('pageName')
-inactive students
+inactive instructors
 @endsection
 @section('content')
 @if($errors->any())
@@ -72,7 +72,7 @@ inactive students
 </thead>
 <tbody>
     @foreach($results as $result)
-    <form method="get" action="{{route('admin.edit.students',$result->id)}}">
+    <form method="get" action="{{route('admin.edit.instructors',$result->id)}}">
     <tr>
         <th scope="row">{{$result->id}}</th>
         <td>{{$result->name}}</td>

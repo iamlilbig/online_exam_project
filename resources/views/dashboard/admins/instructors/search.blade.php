@@ -85,7 +85,6 @@ Search instructors
 <tbody>
     @foreach($results as $result)
     <form method="get" action="{{route('admin.edit.instructors',$result->id)}}">
-    @csrf
     <tr>
         <th scope="row">{{$result->id}}</th>
         <td>{{$result->name}}</td>

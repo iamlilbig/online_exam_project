@@ -35,6 +35,7 @@ class InstructorController extends Controller
             $validate = Validator::make($request->all(),[
                 'name' => ['required', 'string', 'max:255'],
                 'email' => ['required', 'string', 'email', 'max:255',Rule::unique('instructors')->ignore($request->id)],
+                'is_active' => ['required'],
                 'password' => ['required', 'string', 'min:8', 'confirmed'],
                 'phone' => ['required',Rule::unique('instructors')->ignore($request->id),'regex:/09(1[0-9]|9[0-9]|0[0-9]|3[1-9]|2[1-9])-?[0-9]{3}-?[0-9]{4}/'],
             ])->validated();
@@ -42,10 +43,12 @@ class InstructorController extends Controller
             if(Instructor::query()->where('id',$request->id)->update([
                 'name' => $validate['name'],
                 'email' => $validate['email'],
+                'is_active' => $validate['is_active'],
                 'password' => Hash::make($validate['password']),
                 'phone' => $validate['phone'],
             ])){
-                return redirect(route('admin.search.instructors.form'))
+                return redirect()
+                    ->back()
                     ->with('success', 'Updated successfully');
 
             }
@@ -53,14 +56,17 @@ class InstructorController extends Controller
             $validate = Validator::make($request->all(),[
                 'name' => ['required', 'string', 'max:255'],
                 'email' => ['required', 'string', 'email', 'max:255',Rule::unique('instructors')->ignore($request->id)],
+                'is_active' => ['required'],
                 'phone' => ['required',Rule::unique('instructors')->ignore($request->id),'string','regex:/09(1[0-9]|9[0-9]|0[0-9]|3[1-9]|2[1-9])-?[0-9]{3}-?[0-9]{4}/'],
             ])->validated();
             if(Instructor::query()->where('id',$request->id)->update([
                 'name' => $validate['name'],
                 'email' => $validate['email'],
+                'is_active' => $validate['is_active'],
                 'phone' => $validate['phone'],
             ])){
-                return redirect(route('admin.search.instructors.form'))
+                return redirect()
+                    ->back()
                     ->with('success', 'Updated successfully');
 
             }
@@ -176,5 +182,17 @@ class InstructorController extends Controller
         return redirect()
             ->back()
             ->withErrors('your inputs are invalid or your account is not confirmed');
+    }
+
+    public function active()
+    {
+        $instructors = Instructor::query()->where('is_active','1')->get();
+        return view('dashboard.admins.instructors.active',['results' => $instructors]);
+    }
+
+    public function inactive()
+    {
+        $instructors = Instructor::query()->where('is_active','0')->get();
+        return view('dashboard.admins.instructors.inactive',['results' => $instructors]);
     }
 }

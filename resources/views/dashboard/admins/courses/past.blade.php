@@ -12,7 +12,7 @@ Past Courses
         <th scope="col">id</th>
         <th scope="col">unique_id</th>
         <th scope="col">title</th>
-        <th scope="col">instructor_id</th>
+        <th scope="col">instructor name</th>
         <th scope="col">description</th>
         <th scope="col">started_at</th>
         <th scope="col">ended_at</th>
@@ -24,7 +24,7 @@ Past Courses
         <th scope="row">{{$result->id}}</th>
         <td>{{$result->unique_id}}</td>
         <td>{{$result->title}}</td>
-        <td>{{$result->instructor_id}}</td>
+        <td>{{$result->instructor->name}}</td>
         <td>{{$result->description}}</td>
         <td>{{$result->started_at}}</td>
         <td>{{$result->ended_at}}</td>

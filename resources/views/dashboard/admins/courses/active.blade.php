@@ -30,26 +30,25 @@ Active Courses
         <th scope="col">id</th>
         <th scope="col">unique_id</th>
         <th scope="col">title</th>
-        <th scope="col">instructor_id</th>
+        <th scope="col">instructor name</th>
         <th scope="col">description</th>
         <th scope="col">started_at</th>
         <th scope="col">ended_at</th>
-        <th scope="col">edit</th>
+        <th scope="col">information</th>
     </tr>
 </thead>
 <tbody>
     @foreach($results as $result)
-    <form method="get" action="{{route('admin.edit.instructors',$result->id)}}">
-    @csrf
+    <form method="get" action="{{route('admin.courses.info',$result->id)}}">
     <tr>
         <th scope="row">{{$result->id}}</th>
         <td>{{$result->unique_id}}</td>
         <td>{{$result->title}}</td>
-        <td>{{$result->instructor_id}}</td>
+        <td>{{$result->instructor->name}}</td>
         <td>{{$result->description}}</td>
         <td>{{$result->started_at}}</td>
         <td>{{$result->ended_at}}</td>
-        <td><input type="submit" value="Edit" name="confirmation" class="btn btn-info"></td>
+        <td><input type="submit"value="more info & edit" class="btn btn-info"></td>
     </tr>
     </form>
     @endforeach

@@ -38,6 +38,7 @@ class StudentController extends Controller
             $validate = Validator::make($request->all(),[
                 'name' => ['required', 'string', 'max:255'],
                 'email' => ['required', 'string', 'email', 'max:255',Rule::unique('students')->ignore($request->id)],
+                'is_active' => ['required'],
                 'password' => ['required', 'string', 'min:8', 'confirmed'],
                 'phone' => ['required',Rule::unique('students')->ignore($request->id),'regex:/09(1[0-9]|9[0-9]|0[0-9]|3[1-9]|2[1-9])-?[0-9]{3}-?[0-9]{4}/'],
             ])->validated();
@@ -45,10 +46,12 @@ class StudentController extends Controller
             if(Student::query()->where('id',$request->id)->update([
                 'name' => $validate['name'],
                 'email' => $validate['email'],
+                'is_active' => $validate['is_active'],
                 'password' => Hash::make($validate['password']),
                 'phone' => $validate['phone'],
             ])){
-                return redirect(route('admin.search.students.form'))
+                return redirect()
+                    ->back()
                     ->with('success', 'Updated successfully');
 
             }
@@ -56,14 +59,17 @@ class StudentController extends Controller
             $validate = Validator::make($request->all(),[
                 'name' => ['required', 'string', 'max:255'],
                 'email' => ['required', 'string', 'email', 'max:255',Rule::unique('students')->ignore($request->id)],
+                'is_active' => ['required'],
                 'phone' => ['required',Rule::unique('students')->ignore($request->id),'string','regex:/09(1[0-9]|9[0-9]|0[0-9]|3[1-9]|2[1-9])-?[0-9]{3}-?[0-9]{4}/'],
             ])->validated();
             if(Student::query()->where('id',$request->id)->update([
                 'name' => $validate['name'],
                 'email' => $validate['email'],
+                'is_active' => $validate['is_active'],
                 'phone' => $validate['phone'],
             ])){
-                return redirect(route('admin.search.students.form'))
+                return redirect()
+                    ->back()
                     ->with('success', 'Updated successfully');
 
             }
@@ -168,7 +174,7 @@ class StudentController extends Controller
             'phone' => ['required','unique:students','string','regex:/09(1[0-9]|9[0-9]|0[0-9]|3[1-9]|2[1-9])-?[0-9]{3}-?[0-9]{4}/'],
         ])->validated();
 
-        if(Student::create([
+        if(Student::query()->create([
             'name' => $validate['name'],
             'email' => $validate['email'],
             'password' => Hash::make($validate['password']),
@@ -179,5 +185,17 @@ class StudentController extends Controller
 
         }
 
+    }
+
+    public function active(): Factory|View|Application
+    {
+        $students = Student::query()->where('is_active','1')->get();
+        return view('dashboard.admins.students.active',['results' => $students]);
+    }
+
+    public function inactive(): Factory|View|Application
+    {
+        $students = Student::query()->where('is_active','0')->get();
+        return view('dashboard.admins.students.inactive',['results' => $students]);
     }
 }

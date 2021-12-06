@@ -147,9 +147,27 @@ Route::prefix('admins')->middleware('auth:admin')->group(function () {
         Route::get('create',[
             CourseController::class,'create'
         ])->name('admin.courses.create');
+
         Route::post('create',[
             CourseController::class,'store'
         ])->name('admin.courses.store');
+
+
+        Route::get('edit/{id}',[
+            CourseController::class,'edit'
+        ])->name('admin.courses.info');
+
+        Route::patch('edit/{id}',[
+            CourseController::class,'update'
+        ])->name('admin.courses.update');
+
+        Route::put('edit/{id}',[
+            CourseController::class,'addStudent'
+        ])->name('admin.courses.add');
+
+        Route::delete('edit/{id}',[
+            CourseController::class,'deleteStudent'
+        ])->name('admin.courses.delete');
 
         Route::get('past',[
             CourseController::class,'pastCourses'
@@ -159,4 +177,24 @@ Route::prefix('admins')->middleware('auth:admin')->group(function () {
             CourseController::class,'activeCourses'
         ])->name('admin.courses.active');
     });
+
+
+    Route::prefix('instructors')->group(function () {
+       Route::get('active',[
+           InstructorController::class,'active'
+       ])->name('admin.instructors.active');
+       Route::get('inactive',[
+           InstructorController::class,'inactive'
+       ])->name('admin.instructors.inactive');
+    });
+
+    Route::prefix('students')->group(function () {
+       Route::get('active',[
+           StudentController::class,'active'
+       ])->name('admin.students.active');
+       Route::get('inactive',[
+           StudentController::class,'inactive'
+       ])->name('admin.students.inactive');
+    });
+
 });

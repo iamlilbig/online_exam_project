@@ -59,8 +59,8 @@
                                     </a>
                                     <div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
                                         <nav class="sb-sidenav-menu-nested nav">
-                                            <a class="nav-link" href="login.html">Active students</a>
-                                            <a class="nav-link" href="register.html">inactive students</a>
+                                            <a class="nav-link" href="{{route('admin.students.active')}}">Active students</a>
+                                            <a class="nav-link" href="{{route('admin.students.inactive')}}">inactive students</a>
                                             <a class="nav-link" href="{{route('admin.search.students.form')}}">Search students</a>
                                             <a class="nav-link" href="{{route('admin.new.students')}}">New students</a>
                                         </nav>
@@ -71,8 +71,8 @@
                                     </a>
                                     <div class="collapse" id="pagesCollapseError" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
                                         <nav class="sb-sidenav-menu-nested nav">
-                                            <a class="nav-link" href="401.html">Active Instructors</a>
-                                            <a class="nav-link" href="404.html">inactive Instructors</a>
+                                            <a class="nav-link" href="{{route('admin.instructors.active')}}">Active Instructors</a>
+                                            <a class="nav-link" href="{{route('admin.instructors.inactive')}}">inactive Instructors</a>
                                             <a class="nav-link" href="{{route('admin.search.instructors.form')}}">Search Instructions</a>
                                             <a class="nav-link" href="{{route('admin.new.instructors')}}">New Instructors</a>
                                         </nav>

@@ -19,4 +19,9 @@ class Instructor extends Authenticatable
         'is_confirmed'
     ];
 
+
+    public function courses()
+    {
+        return $this->hasMany(Course::class);
+    }
 }
