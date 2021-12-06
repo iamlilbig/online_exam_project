@@ -115,10 +115,10 @@ class StudentController extends Controller
 //        dd($id,$request->all());
     if($request->confirmation == 'accept'){
         Student::where('id',$id)
-            ->update(['is_confirmed' => '1']);
+            ->update(['is_confirmed' => '1','is_active' => '1']);
     }else{
         Student::where('id',$id)
-            ->update(['is_confirmed' => '0']);
+            ->update(['is_confirmed' => '0','is_active' => '0']);
     }
     return redirect(route('admin.new.students'));
     }
