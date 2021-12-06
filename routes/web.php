@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\CourseController;
 use App\Http\Controllers\InstructorController;
 use App\Http\Controllers\StudentController;
 use Illuminate\Support\Facades\Route;
@@ -140,5 +141,22 @@ Route::prefix('admins')->middleware('auth:admin')->group(function () {
         Route::post('Instructors',[
             InstructorController::class,'search'
         ])->name('admin.search.instructors');
+    });
+
+    Route::prefix('courses')->group(function () {
+        Route::get('create',[
+            CourseController::class,'create'
+        ])->name('admin.courses.create');
+        Route::post('create',[
+            CourseController::class,'store'
+        ])->name('admin.courses.store');
+
+        Route::get('past',[
+            CourseController::class,'pastCourses'
+        ])->name('admin.courses.past');
+
+        Route::get('active',[
+            CourseController::class,'activeCourses'
+        ])->name('admin.courses.active');
     });
 });
