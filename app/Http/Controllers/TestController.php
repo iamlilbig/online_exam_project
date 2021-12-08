@@ -67,7 +67,7 @@ class TestController extends Controller
         if(Test::query()->create($validate)){
             return redirect()
                 ->back()
-                ->with('success', 'the course is successfully updated');
+                ->with('success', 'the course is successfully created');
         }
         return redirect()
             ->back()

@@ -24,7 +24,7 @@ Test Edit
             <div class="form-floating mb-3">
             <select class="form-select" aria-label="Default select example" name="course_id">
             @foreach($courses as $course)
-                @if ($loop->first)
+                @if ($course->id == $exams->course_id)
                     <option value="{{$course->id}}" selected>{{$course->unique_id}}</option>
                     @continue
                 @endif

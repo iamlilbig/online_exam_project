@@ -29,7 +29,7 @@ Course Information
                         <input class="form-control" id="inputEndedAt" value="{{$course->ended_at}}" name="ended_at" type="date" placeholder="End date" disabled readonly/>
                         <label for="inputEndedAt">End Time</label>
                     </div>
-                    <a href="#">
+                    <a href="{{route('instructors.exams.create')}}">
                     <button class="btn btn-primary">Create new exam</button>
                     </a>
                 </div>
@@ -123,9 +123,11 @@ Course Information
         </a>
         </td>
         <td>
-        <a href="{{route('instructors.exams.delete',['id' => $exam->id])}}">
-        <button class="btn btn-danger">Delete</button>
-        </a>
+        <form method="post" action="{{route('instructors.exams.delete',['id' => $exam->id])}}">
+        @csrf
+        @method('delete')
+        <input type="submit" class="btn btn-danger" name="submit" value="delete">
+        </form>
         </td>
     </tr>
     @endforeach
