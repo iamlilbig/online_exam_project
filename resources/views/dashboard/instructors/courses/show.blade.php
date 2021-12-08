@@ -90,6 +90,7 @@ Course Information
         <th scope="col">start date</th>
         <th scope="col">start time</th>
         <th scope="col">edit exam</th>
+        <th scope="col">delete exam</th>
     </tr>
 </thead>
 <tbody>
@@ -120,8 +121,10 @@ Course Information
         <a href="{{route('instructors.exams.edit',['id' => $exam->id])}}">
         <button class="btn btn-primary">edit</button>
         </a>
-        <a href="{{route('instructors.exams.edit',['id' => $exam->id])}}">//TODO:create delete route
-        <button class="btn btn-primary">Delete</button>
+        </td>
+        <td>
+        <a href="{{route('instructors.exams.delete',['id' => $exam->id])}}">
+        <button class="btn btn-danger">Delete</button>
         </a>
         </td>
     </tr>

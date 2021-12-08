@@ -22,6 +22,17 @@ Test Edit
                 <label for="inputDate">Date</label>
             </div>
             <div class="form-floating mb-3">
+            <select class="form-select" aria-label="Default select example" name="course_id">
+            @foreach($courses as $course)
+                @if ($loop->first)
+                    <option value="{{$course->id}}" selected>{{$course->unique_id}}</option>
+                    @continue
+                @endif
+              <option value="{{$course->id}}">{{$course->unique_id}}</option>
+            @endforeach
+            </select>
+            </div>
+            <div class="form-floating mb-3">
               <input type="time" id="inputMDEx1" class="form-control" name="time" required>
               <label for="inputMDEx1">Choose your time</label>
             </div>

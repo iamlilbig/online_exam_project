@@ -11,6 +11,17 @@ class Test extends Model
 {
     use HasFactory;
 
+    protected $fillable=[
+    'title',
+    'description',
+    'course_id',
+    'duration',
+    'date',
+    'total_score',
+    'date',
+    'time',
+    ];
+
     public function course(): BelongsTo
     {
         return $this->belongsTo(Course::class);

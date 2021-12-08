@@ -240,11 +240,15 @@ Route::prefix('instructors')->middleware('auth:instructor')->group(function () {
 
         Route::get('/past',[
             TestController::class,'past'
-        ])->name('instructors.exams.past');
+            ])->name('instructors.exams.past');
 
         Route::put('{id}',[
             TestController::class,'update'
         ])->name('instructors.exams.update');
+
+        Route::delete('{id}',[
+            TestController::class,'destroy'
+        ])->name('instructors.exams.delete');
 
         Route::get('/create',[
             TestController::class,'create'

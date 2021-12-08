@@ -50,8 +50,8 @@
                                 </a>
                                 <div class="collapse" id="pagesCollapseAuth1" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
                                     <nav class="sb-sidenav-menu-nested nav">
-                                        <a class="nav-link" href="{{route('admin.students.active')}}">Active Tests</a>
-                                        <a class="nav-link" href="{{route('admin.students.inactive')}}">Past Tests</a>
+                                        <a class="nav-link" href="{{route('instructors.exams.active')}}">Active Tests</a>
+                                        <a class="nav-link" href="{{route('instructors.exams.past')}}">Past Tests</a>
                                         <a class="nav-link" href="{{route('instructors.exams.create')}}">Create Test</a>
                                     </nav>
                                 </div>

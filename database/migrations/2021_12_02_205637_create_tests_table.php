@@ -19,7 +19,7 @@ class CreateTestsTable extends Migration
             $table->string('description');
             $table->unsignedBigInteger('course_id');
             $table->string('duration');
-            $table->string('total_score');
+            $table->string('total_score')->nullable();
             $table->date('date');
             $table->time('time');
             $table->foreign('course_id')->references('id')->on('courses');
