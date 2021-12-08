@@ -67,7 +67,10 @@ class CourseController extends Controller
         return view('dashboard.admins.courses.info',['course' => $course,'results' => $students,'instructors' => $instructors]);
     }
 
-    public function update(Request $request,$id)
+    /**
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    public function update(Request $request, $id)
     {
         $validate = Validator::make($request->all(),[
             'unique_id' => ['required', 'string', 'max:255',Rule::unique('students')->ignore($request->id)],

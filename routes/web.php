@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\InstructorController;
 use App\Http\Controllers\StudentController;
+use App\Http\Controllers\TestController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -201,6 +202,7 @@ Route::prefix('admins')->middleware('auth:admin')->group(function () {
        ])->name('admin.students.inactive');
     });
 
+
 });
 
 Route::prefix('instructors')->middleware('auth:instructor')->group(function () {
@@ -212,6 +214,7 @@ Route::prefix('instructors')->middleware('auth:instructor')->group(function () {
         InstructorController::class,'dashboard'
     ])->name('instructors.home');
 
+
     Route::prefix('courses')->group(function(){
         Route::get('past',[
             InstructorController::class,'pastCourses'
@@ -220,6 +223,36 @@ Route::prefix('instructors')->middleware('auth:instructor')->group(function () {
         Route::get('active',[
             InstructorController::class,'activeCourses'
         ])->name('instructors.courses.active');
+
+        Route::get('/{id}',[
+            InstructorController::class,'show'
+        ])->name('instructors.courses.show');
+    });
+
+    Route::prefix('exams')->group(function () {
+        Route::get('{id}/edit',[
+            TestController::class,'edit'
+        ])->name('instructors.exams.edit');
+
+        Route::get('/active',[
+            TestController::class,'active'
+        ])->name('instructors.exams.active');
+
+        Route::get('/past',[
+            TestController::class,'past'
+        ])->name('instructors.exams.past');
+
+        Route::put('{id}',[
+            TestController::class,'update'
+        ])->name('instructors.exams.update');
+
+        Route::get('/create',[
+            TestController::class,'create'
+        ])->name('instructors.exams.create');
+
+        Route::post('/',[
+            TestController::class,'store'
+        ])->name('instructors.exams.store');
     });
 
 });

@@ -40,7 +40,7 @@ Active Courses
 </thead>
 <tbody>
     @foreach($results as $result)
-    <form method="get" action="{{route('admin.courses.info',$result->id)}}">
+    <form method="get" action="{{route('instructors.courses.show',$result->id)}}">
     <tr>
         <th scope="row">{{$result->id}}</th>
         <td>{{$result->unique_id}}</td>
@@ -49,7 +49,7 @@ Active Courses
         <td>{{$result->description}}</td>
         <td>{{$result->started_at}}</td>
         <td>{{$result->ended_at}}</td>
-        <td><input type="submit"value="more info & edit" class="btn btn-info"></td>
+        <td><input type="submit"value="more info & exams" class="btn btn-info"></td>
     </tr>
     </form>
     @endforeach

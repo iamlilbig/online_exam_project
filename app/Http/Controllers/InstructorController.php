@@ -220,4 +220,12 @@ class InstructorController extends Controller
         $courses = Auth::user()->courses()->where('ended_at', '<',Carbon::now())->get();
         return view('dashboard.instructors.courses.past',['results' => $courses]);
     }
+
+    public function show($id): Factory|View|Application
+    {
+        $course = Course::find($id);
+        $students = $course->students;
+        $exams = $course->tests;
+        return view('dashboard.instructors.courses.show',['course'=>$course,'students'=>$students,'exams'=>$exams]);
+    }
 }

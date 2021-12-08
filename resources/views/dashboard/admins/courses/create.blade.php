@@ -25,7 +25,7 @@ Create course
             <label for="instructor_id" class="form-label">Course Description</label>
             </div>
             <div class="form-floating mb-3">
-                <textarea class="form-control" name="description" id="inputDescription" "></textarea>
+                <textarea class="form-control" name="description" id="inputDescription"></textarea>
                 <label for="inputDescription" class="form-label">Course Description</label>
             </div>
             <div class="form-floating mb-3">
