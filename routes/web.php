@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\InstructorController;
 use App\Http\Controllers\StudentController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,7 +22,7 @@ Route::get('/', function () {
     return view('welcome');
 })->name('home');
 
-Route::prefix('login')->middleware('guest')->group(function () {
+Route::prefix('login')->group(function () {
     Route::get('/', function () {
         return redirect(route('login.students'));
     })->name('login');
@@ -72,6 +73,7 @@ Route::prefix('register')->group(function () {
         InstructorController::class,'register'
     ])->name('register.instructors.store');
 });
+//dd(Auth::user());
 
 Route::prefix('admins')->middleware('auth:admin')->group(function () {
     Route::get('/',function () {
@@ -186,6 +188,8 @@ Route::prefix('admins')->middleware('auth:admin')->group(function () {
        Route::get('inactive',[
            InstructorController::class,'inactive'
        ])->name('admin.instructors.inactive');
+
+
     });
 
     Route::prefix('students')->group(function () {
@@ -196,5 +200,32 @@ Route::prefix('admins')->middleware('auth:admin')->group(function () {
            StudentController::class,'inactive'
        ])->name('admin.students.inactive');
     });
+
+});
+
+Route::prefix('instructors')->middleware('auth:instructor')->group(function () {
+    Route::get('logout',[
+        InstructorController::class,'logout'
+    ])->name('instructors.logout');
+
+    Route::get('/',[
+        InstructorController::class,'dashboard'
+    ])->name('instructors.home');
+
+    Route::prefix('courses')->group(function(){
+        Route::get('past',[
+            InstructorController::class,'pastCourses'
+        ])->name('instructors.courses.past');
+
+        Route::get('active',[
+            InstructorController::class,'activeCourses'
+        ])->name('instructors.courses.active');
+    });
+
+});
+
+
+
+Route::prefix('students')->middleware('auth:student')->group(function () {
 
 });

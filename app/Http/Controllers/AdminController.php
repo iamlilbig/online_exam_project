@@ -2,17 +2,26 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
 
 class AdminController extends Controller
 {
+
+    public function __construct()
+    {
+//        $this->middleware('can:admin')->except(['showLoginForm','login']);
+    }
+
     public function showLoginForm()
     {
         return view('login.admin');
     }
 
-    public function logout(Request $request): \Illuminate\Routing\Redirector|\Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse
+    public function logout(Request $request): Redirector|Application|RedirectResponse
     {
         Auth::logout();
 
@@ -37,6 +46,8 @@ class AdminController extends Controller
 
     public function showHomePage()
     {
+//        dd(Auth::guard('admin')->check());
+
         return view('dashboard.admins.home');
     }
 }

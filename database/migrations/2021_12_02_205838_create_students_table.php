@@ -19,8 +19,8 @@ class CreateStudentsTable extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->string('name');
-            $table->tinyInteger('is_active')->default('1');
-            $table->tinyInteger('is_confirmed')->nullable();
+            $table->tinyInteger('is_active')->nullable()->default(null);
+            $table->tinyInteger('is_confirmed')->nullable()->default(null);
             $table->timestamps();
         });
     }

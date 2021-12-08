@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Course;
 use App\Models\Instructor;
 use App\Models\Student;
+use Carbon\Carbon;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -19,6 +21,11 @@ use Illuminate\Validation\ValidationException;
 
 class InstructorController extends Controller
 {
+    public function __construct()
+    {
+//        $this->middleware('can:instructor');
+//        $this->middleware('can:admin');
+    }
 
     public function edit($id): Application|Factory|View
     {
@@ -44,6 +51,7 @@ class InstructorController extends Controller
                 'name' => $validate['name'],
                 'email' => $validate['email'],
                 'is_active' => $validate['is_active'],
+                'is_confirmed' => $validate['is_active'],
                 'password' => Hash::make($validate['password']),
                 'phone' => $validate['phone'],
             ])){
@@ -63,6 +71,7 @@ class InstructorController extends Controller
                 'name' => $validate['name'],
                 'email' => $validate['email'],
                 'is_active' => $validate['is_active'],
+                'is_confirmed' => $validate['is_active'],
                 'phone' => $validate['phone'],
             ])){
                 return redirect()
@@ -175,8 +184,7 @@ class InstructorController extends Controller
         $credentials = ['email' => $request->post('email'), 'password' => $request->post('password'),'is_confirmed' => '1','is_active' => '1'];
 
         if(Auth::guard('instructor')->attempt($credentials)){
-            abort(200);
-            return redirect(route('home'));
+            return redirect(route('instructors.home'));
         }
 
         return redirect()
@@ -184,15 +192,32 @@ class InstructorController extends Controller
             ->withErrors('your inputs are invalid or your account is not confirmed');
     }
 
-    public function active()
+    public function dashboard(): Factory|View|Application
+    {
+        return view('dashboard.instructors.dashboard');
+    }
+
+    public function active(): Factory|View|Application
     {
         $instructors = Instructor::query()->where('is_active','1')->get();
         return view('dashboard.admins.instructors.active',['results' => $instructors]);
     }
 
-    public function inactive()
+    public function inactive(): Factory|View|Application
     {
         $instructors = Instructor::query()->where('is_active','0')->get();
         return view('dashboard.admins.instructors.inactive',['results' => $instructors]);
+    }
+
+    public function activeCourses(): Factory|View|Application
+    {
+        $courses = Auth::user()->courses()->where('ended_at', '>',Carbon::now())->get();
+        return view('dashboard.instructors.courses.active',['results' => $courses]);
+    }
+
+    public function pastCourses(): Factory|View|Application
+    {
+        $courses = Auth::user()->courses()->where('ended_at', '<',Carbon::now())->get();
+        return view('dashboard.instructors.courses.past',['results' => $courses]);
     }
 }

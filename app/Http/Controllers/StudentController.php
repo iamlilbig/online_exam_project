@@ -47,6 +47,7 @@ class StudentController extends Controller
                 'name' => $validate['name'],
                 'email' => $validate['email'],
                 'is_active' => $validate['is_active'],
+                'is_confirmed' => $validate['is_active'],
                 'password' => Hash::make($validate['password']),
                 'phone' => $validate['phone'],
             ])){
@@ -66,6 +67,7 @@ class StudentController extends Controller
                 'name' => $validate['name'],
                 'email' => $validate['email'],
                 'is_active' => $validate['is_active'],
+                'is_confirmed' => $validate['is_active'],
                 'phone' => $validate['phone'],
             ])){
                 return redirect()
