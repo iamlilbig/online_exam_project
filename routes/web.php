@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\InstructorController;
+use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TestController;
 use Illuminate\Support\Facades\Auth;
@@ -202,7 +203,6 @@ Route::prefix('admins')->middleware('auth:admin')->group(function () {
        ])->name('admin.students.inactive');
     });
 
-
 });
 
 Route::prefix('instructors')->middleware('auth:instructor')->group(function () {
@@ -229,14 +229,44 @@ Route::prefix('instructors')->middleware('auth:instructor')->group(function () {
         ])->name('instructors.courses.show');
     });
 
+    Route::prefix('questions')->group(function(){
+        Route::get('{id}/edit',[
+            QuestionController::class,'edit'
+        ])->name('instructors.questions.edit');
+
+        Route::get('create',[
+            QuestionController::class,'create'
+        ])->name('instructors.questions.create');
+
+        Route::post('store',[
+            QuestionController::class,'store'
+        ])->name('instructors.questions.store');
+
+        Route::patch('update',[
+            QuestionController::class,'update'
+        ])->name('instructors.questions.update');
+    });
+
     Route::prefix('exams')->group(function () {
         Route::get('{id}/edit',[
             TestController::class,'edit'
         ])->name('instructors.exams.edit');
 
+        Route::put('{id}/edit',[
+            TestController::class,'addQuestion'
+        ])->name('instructors.exams.questions.add');
+
+        Route::delete('{id}/edit',[
+            TestController::class,'deleteQuestion'
+        ])->name('instructors.exams.questions.delete');
+
         Route::get('/active',[
             TestController::class,'active'
         ])->name('instructors.exams.active');
+
+        Route::get('{id}/edit/questionBank',[
+            TestController::class,'questionBank'
+        ])->name('instructors.exams.questionBank');
 
         Route::get('/past',[
             TestController::class,'past'

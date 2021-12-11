@@ -31,4 +31,9 @@ class Instructor extends Authenticatable
     {
         return $this->hasManyThrough(Test::class,Course::class );
     }
+
+    public function questions(): HasMany
+    {
+        return $this->hasMany(Question::class);
+    }
 }

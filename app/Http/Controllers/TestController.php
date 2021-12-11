@@ -16,11 +16,40 @@ use Illuminate\Validation\ValidationException;
 
 class TestController extends Controller
 {
+    public function addQuestion($id,Request $request)
+    {
+        $selected = $request->select;
+        $exam = Test::find($id);
+        foreach ($selected as $select){
+            $exam->questions()->attach($select);
+        }
+        return redirect()
+            ->route('instructors.exams.edit',$id)
+            ->with('success','the questions added successfully');
+    }
+
+    public function questionBank($id): Factory|View|Application
+    {
+        $exam = Test::find($id);
+        $questions = Auth::user()->questions()->get();
+        return view('dashboard.instructors.questions.select',['exam' => $exam,'results' => $questions]);
+    }
+
+    public function deleteQuestion(Request $request,$id): RedirectResponse
+    {
+        $test = Test::find($id);
+        $test->questions()->detach($request->question_id);
+        return redirect()
+            ->back()
+            ->with('success', 'the question has been deleted');
+    }
+
     public function edit($id): Factory|View|Application
     {
         $test = Test::where('id', $id)->first();
         $courses = Auth::user()->courses()->where('ended_at', '>',Carbon::now())->get();
-        return view('dashboard.instructors.tests.edit', ['exams' => $test,'courses' => $courses]);
+        $questions = $test->questions;
+        return view('dashboard.instructors.tests.edit', ['exams' => $test,'courses' => $courses,'results' => $questions]);
     }
 
     /**

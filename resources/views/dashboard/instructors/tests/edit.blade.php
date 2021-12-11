@@ -99,6 +99,73 @@ Test Edit
         </div>
     </div>
 @endif
-
+<div class="container mb-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-5">
+            <div class="card shadow-lg border-0 rounded-lg mt-5 bg-dark text-white">
+                <div class="bg-dark card-header"><h3 class="text-center font-weight-light my-4">Add Questions</h3></div>
+                <div class="btn-group m-3" role="group" aria-label="Basic example">
+                    <a href="" class="btn btn-info">Create New</a>
+                    <a href="{{route('instructors.exams.questionBank',$exams->id)}}"class="btn btn-primary">Question Bank</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@if(isset($results))
+    @if(count($results) > 0)
+<table class="table table-striped table-hover">
+    <thead>
+    <tr>
+        <th scope="col">id</th>
+        <th scope="col">title</th>
+        <th scope="col">content</th>
+        <th scope="col">question type</th>
+        <th scope="col">default_score</th>
+        <th scope="col">answers</th>
+        <th scope="col">correct answer</th>
+        <th scope="col">author</th>
+        <th scope="col">edit</th>
+        <th scope="col">delete</th>
+    </tr>
+</thead>
+<tbody>
+    @foreach($results as $result)
+    <form method="post" action="{{route('instructors.exams.questions.delete',$exams->id)}}">
+    @csrf
+    @method('delete')
+    <tr>
+        <th scope="row">{{$result->id}}</th>
+        <td>{{$result->title}}</td>
+        <td>{{$result->content}}</td>
+        <td>{{$result->questionType->question_type}}</td>
+        <td>{{$result->default_score}}</td>
+        <td>{{$result->answers}}</td>
+        <td>{{$result->correct_answer}}</td>
+        <td>{{$result->instructor->name}}</td>
+        <input type="hidden" name="question_id" value="{{$result->id}}">
+        <td><a href="{{route('instructors.questions.edit',$result->id)}}" class="btn btn-warning">Edit</a></td>
+        <td><input type="submit" value="delete" name="confirmation" class="btn btn-danger"></td>
+    </tr>
+    </form>
+    @endforeach
+</tbody>
+</table>
+    @else
+<div class="container mb-3">
+    <div class="row justify-content-center">
+        <div class="col-lg-5">
+            <div class="card shadow-lg border-0 rounded-lg mt-5 bg-dark text-white">
+                <div class="bg-dark card-header">
+                    <h3 class="text-center font-weight-light my-4">
+                       No Questions fonded!
+                    </h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@endif
+@endif
 @endsection
 
