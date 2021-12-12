@@ -10,6 +10,8 @@
         <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
         <link href="/css/styles.css" rel="stylesheet" />
         <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js" crossorigin="anonymous"></script>
+        @yield('script')
+
 </head>
     <body class="sb-nav-fixed">
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
@@ -67,9 +69,8 @@
                                             </a>
                                             <div class="collapse" id="pagesCollapseAuth2" aria-labelledby="headingOne" data-bs-parent="#pagesCollapseError">
                                                 <nav class="sb-sidenav-menu-nested nav">
-                                                    <a class="nav-link" href="{{route('admin.students.active')}}">Multiple Choice Questions</a>
-                                                    <a class="nav-link" href="{{route('admin.students.inactive')}}">Descriptive Questions</a>
-                                                    <a class="nav-link" href="{{route('admin.search.students.form')}}">Create Question</a>
+                                                    <a class="nav-link" href="{{route('instructors.questions.index.multipleChoice')}}">Questions</a>
+                                                    <a class="nav-link" href="{{route('instructors.questions.create.multipleChoice')}}">Create Question</a>
                                                 </nav>
                                             </div>
                                         <a class="nav-link" href="{{route('admin.instructors.inactive')}}">inactive Instructors</a>

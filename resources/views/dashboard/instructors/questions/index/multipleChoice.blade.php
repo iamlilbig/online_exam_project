@@ -1,49 +1,18 @@
 @extends('layouts.dashboard.instructor')
 @section('pageName')
-Test Edit
+Multiple Choice
 @endsection
 @section('content')
-<div class="card shadow-lg border-0 rounded-lg mt-5">
-    <div class="card-header"><h3 class="text-center font-weight-light my-4">@yield('pageName')</h3></div>
-    <div class="card-body">
-        <form action="{{route('instructors.exams.update',['id' => $exams->id])}}" method="post">
-        @method('put')
-        @csrf
-            <div class="form-floating mb-3">
-                <input class="form-control" id="inputName" name="title" value="{{$exams->title}}" type="text" placeholder="Enter Your Name" />
-                <label for="inputName">Title</label>
+<div class="container mb-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-5">
+            <div class="card shadow-lg border-0 rounded-lg mt-2 bg-dark text-white">
+                <div class="btn-group m-3" role="group" aria-label="Basic example">
+                    <a href="{{route('instructors.questions.index.multipleChoice')}}" class="btn btn-info">Multiple Choice Questions</a>
+                    <a href="{{route('instructors.questions.index.descriptive')}}" class="btn btn-outline-info">Descriptive Questions</a>
+                </div>
             </div>
-            <div class="form-floating mb-3">
-                <textarea class="form-control" name="description" id="inputDescription">{{$exams->description}}</textarea>
-                <label for="inputDescription" class="form-label">Course Description</label>
-            </div>
-            <div class="form-floating mb-3">
-                <input class="form-control" id="inputDate" name="date" value="{{$exams->date}}" type="date" placeholder="Enter date" />
-                <label for="inputDate">Date</label>
-            </div>
-            <div class="form-floating mb-3">
-            <select class="form-select" aria-label="Default select example" name="course_id">
-            @foreach($courses as $course)
-                @if ($course->id == $exams->course_id)
-                    <option value="{{$course->id}}" selected>{{$course->unique_id}}</option>
-                    @continue
-                @endif
-              <option value="{{$course->id}}">{{$course->unique_id}}</option>
-            @endforeach
-            </select>
-            </div>
-            <div class="form-floating mb-3">
-              <input type="time" id="inputMDEx1" class="form-control" name="time" required>
-              <label for="inputMDEx1">Choose your time</label>
-            </div>
-            <div class="form-floating mb-3">
-                <input class="form-control" id="inputTime" name="duration" type="number" value="{{$exams->duration}}" placeholder="Enter time" />
-                <label for="inputTime">duration</label>
-            </div>
-            <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
-                <input type="submit" class="btn btn-success" value="Submit">
-            </div>
-        </form>
+        </div>
     </div>
 </div>
 @if($errors->any())
@@ -99,19 +68,7 @@ Test Edit
         </div>
     </div>
 @endif
-<div class="container mb-5">
-    <div class="row justify-content-center">
-        <div class="col-lg-5">
-            <div class="card shadow-lg border-0 rounded-lg mt-5 bg-dark text-white">
-                <div class="bg-dark card-header"><h3 class="text-center font-weight-light my-4">Add Questions</h3></div>
-                <div class="btn-group m-3" role="group" aria-label="Basic example">
-                    <a href="{{route('instructors.questions.create.multipleChoice')}}" class="btn btn-info">Create New</a>
-                    <a href="{{route('instructors.exams.questionBank',$exams->id)}}"class="btn btn-primary">Question Bank</a>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+
 @if(isset($results))
     @if(count($results) > 0)
 <table class="table table-striped table-hover">
@@ -131,7 +88,7 @@ Test Edit
 </thead>
 <tbody>
     @foreach($results as $result)
-    <form method="post" action="{{route('instructors.exams.questions.delete',$exams->id)}}">
+    <form method="post" action="{{route('instructors.questions.delete.multipleChoice',$result->id)}}">
     @csrf
     @method('delete')
     <tr>
@@ -139,16 +96,12 @@ Test Edit
         <td>{{$result->title}}</td>
         <td>{{$result->content}}</td>
         <td>{{$result->questionType->question_type}}</td>
-        <td>{{$result->pivot->default_score}}</td>
+        <td>{{$result->default_score}}</td>
         <td>{{$result->answers}}</td>
         <td>{{$result->correct_answer}}</td>
         <td>{{$result->instructor->name}}</td>
         <input type="hidden" name="question_id" value="{{$result->id}}">
-        @if($result->question_type_id == 1)
-        <td><a href="{{route('instructors.questions.edit.descriptive',$result->id)}}" class="btn btn-warning">Edit</a></td>
-        @elseif($result->question_type_id == 2)
         <td><a href="{{route('instructors.questions.edit.multipleChoice',$result->id)}}" class="btn btn-warning">Edit</a></td>
-        @endif
         <td><input type="submit" value="delete" name="confirmation" class="btn btn-danger"></td>
     </tr>
     </form>
@@ -172,4 +125,3 @@ Test Edit
 @endif
 @endif
 @endsection
-

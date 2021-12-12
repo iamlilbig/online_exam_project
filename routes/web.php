@@ -57,7 +57,7 @@ Route::prefix('login')->group(function () {
 Route::prefix('register')->group(function () {
     Route::get('/', function () {
         return redirect(route('register.students'));
-    });
+    })->name('register');
 
     Route::get('/students',[
         StudentController::class,'showRegisterForm'
@@ -75,7 +75,6 @@ Route::prefix('register')->group(function () {
         InstructorController::class,'register'
     ])->name('register.instructors.store');
 });
-//dd(Auth::user());
 
 Route::prefix('admins')->middleware('auth:admin')->group(function () {
     Route::get('/',function () {
@@ -214,7 +213,6 @@ Route::prefix('instructors')->middleware('auth:instructor')->group(function () {
         InstructorController::class,'dashboard'
     ])->name('instructors.home');
 
-
     Route::prefix('courses')->group(function(){
         Route::get('past',[
             InstructorController::class,'pastCourses'
@@ -230,21 +228,72 @@ Route::prefix('instructors')->middleware('auth:instructor')->group(function () {
     });
 
     Route::prefix('questions')->group(function(){
-        Route::get('{id}/edit',[
-            QuestionController::class,'edit'
-        ])->name('instructors.questions.edit');
 
-        Route::get('create',[
-            QuestionController::class,'create'
-        ])->name('instructors.questions.create');
+        Route::prefix('{id}/edit')->group(function(){
+            Route::get('descriptive',[
+                QuestionController::class,'editDescriptive'
+            ])->name('instructors.questions.edit.descriptive');
 
-        Route::post('store',[
-            QuestionController::class,'store'
-        ])->name('instructors.questions.store');
+            Route::get('multipleChoice',[
+                QuestionController::class,'editMultipleChoice'
+            ])->name('instructors.questions.edit.multipleChoice');
+        });
 
-        Route::patch('update',[
-            QuestionController::class,'update'
-        ])->name('instructors.questions.update');
+        Route::prefix('index')->group(function(){
+
+        Route::get('multipleChoice',[
+            QuestionController::class,'indexMultipleChoice'
+        ])->name('instructors.questions.index.multipleChoice');
+
+        Route::get('descriptive',[
+            QuestionController::class,'indexDescriptive'
+        ])->name('instructors.questions.index.descriptive');
+
+        });
+
+        Route::prefix('create')->group(function(){
+
+            Route::get('multipleChoice',[
+                QuestionController::class,'createMultipleChoice'
+            ])->name('instructors.questions.create.multipleChoice');
+
+            Route::get('descriptive',[
+                QuestionController::class,'createDescriptive'
+            ])->name('instructors.questions.create.descriptive');
+
+        });
+
+        Route::prefix('store')->group(function(){
+        Route::post('multipleChoice',[
+            QuestionController::class,'storeMultipleChoice'
+        ])->name('instructors.questions.store.multipleChoice');
+
+        Route::post('descriptive',[
+            QuestionController::class,'storeDescriptive'
+        ])->name('instructors.questions.store.descriptive');
+        });
+
+        Route::prefix('{id}/delete')->group(function(){
+
+        Route::delete('multipleChoice',[
+            QuestionController::class,'deleteMultipleChoice'
+        ])->name('instructors.questions.delete.multipleChoice');
+
+        Route::delete('descriptive',[
+            QuestionController::class,'deleteDescriptive'
+        ])->name('instructors.questions.delete.descriptive');
+        });
+
+        Route::prefix('{id}/update')->group(function(){
+
+        Route::patch('multipleChoice',[
+            QuestionController::class,'updateMultipleChoice'
+        ])->name('instructors.questions.update.multipleChoice');
+
+        Route::patch('descriptive',[
+            QuestionController::class,'updateDescriptive'
+        ])->name('instructors.questions.update.descriptive');
+        });
     });
 
     Route::prefix('exams')->group(function () {
@@ -290,7 +339,6 @@ Route::prefix('instructors')->middleware('auth:instructor')->group(function () {
     });
 
 });
-
 
 
 Route::prefix('students')->middleware('auth:student')->group(function () {

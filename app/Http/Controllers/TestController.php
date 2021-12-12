@@ -16,7 +16,7 @@ use Illuminate\Validation\ValidationException;
 
 class TestController extends Controller
 {
-    public function addQuestion($id,Request $request)
+    public function addQuestion($id,Request $request): RedirectResponse
     {
         $selected = $request->select;
         $exam = Test::find($id);
