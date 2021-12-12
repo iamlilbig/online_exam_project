@@ -3,7 +3,25 @@
 Select question
 @endsection
 @section('content')
-
+@if($errors->any())
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-5">
+                <div class="card shadow-lg border-0 rounded-lg mt-5">
+                    <div class="bg-dark card-header">
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+@endif
 @if(isset($results))
     @if(count($results) > 0)
 <form method="post" action="{{route('instructors.exams.questions.add',$exam->id)}}">
@@ -16,10 +34,10 @@ Select question
         <th scope="col">title</th>
         <th scope="col">content</th>
         <th scope="col">question type</th>
-        <th scope="col">default_score</th>
         <th scope="col">answers</th>
         <th scope="col">correct answer</th>
         <th scope="col">author</th>
+        <th scope="col">default_score</th>
         <th scope="col"><input type="submit" value="Submit Query" class="btn btn-success"/></th>
     </tr>
 </thead>
@@ -30,13 +48,25 @@ Select question
         <td>{{$result->title}}</td>
         <td>{{$result->content}}</td>
         <td>{{$result->questionType->question_type}}</td>
-        <td>{{$result->default_score}}</td>
-        <td>{{$result->answers}}</td>
+        @if($result->question_type_id == 2)
+        <td>@foreach($result->answers as $answer)
+        ({{$loop->index + 1}}){{$answer}}--
+        @endforeach</td>
         <td>{{$result->correct_answer}}</td>
+        @else
+        <td></td>
+        <td></td>
+        @endif
         <td>{{$result->instructor->name}}</td>
+        <td>{{$result->default_score}}</td>
         <td>
-          <input type="checkbox" class="btn-check" name="select[]" value="{{$result->id}}" id="btn-check-outlined" autocomplete="off">
-          <label class="btn btn-outline-primary" for="btn-check-outlined">Add Question</label>
+            <div class="input-group mb-3">
+                <input type="number" id="inputScore" name="score{{$result->id}}"class="form-control" aria-label="Text input with checkbox">
+                <label for="inputScore"></label>
+                <div class="input-group-text">
+                   <input class="form-check-input mt-0" type="checkbox" name="select[]" value="{{$result->id}}" aria-label="Checkbox for following text input">
+                </div>
+          </div>
         </td>
     </tr>
     @endforeach

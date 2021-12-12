@@ -27,8 +27,8 @@ class Test extends Model
         return $this->belongsTo(Course::class);
     }
 
-    public function questions():       BelongsToMany
+    public function questions(): BelongsToMany
     {
-        return $this->belongsToMany(Question::class,'question_tests');
+        return $this->belongsToMany(Question::class,'question_tests')->withPivot('default_score')->using(QuestionTest::class);
     }
 }

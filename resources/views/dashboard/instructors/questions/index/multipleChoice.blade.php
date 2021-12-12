@@ -78,30 +78,27 @@ Multiple Choice
         <th scope="col">title</th>
         <th scope="col">content</th>
         <th scope="col">question type</th>
-        <th scope="col">default_score</th>
         <th scope="col">answers</th>
         <th scope="col">correct answer</th>
         <th scope="col">author</th>
-        <th scope="col">edit</th>
         <th scope="col">delete</th>
     </tr>
 </thead>
 <tbody>
     @foreach($results as $result)
-    <form method="post" action="{{route('instructors.questions.delete.multipleChoice',$result->id)}}">
+    <form method="post" action="{{route('instructors.questions.destroy',$result->id)}}">
     @csrf
     @method('delete')
-    <tr>
         <th scope="row">{{$result->id}}</th>
         <td>{{$result->title}}</td>
         <td>{{$result->content}}</td>
         <td>{{$result->questionType->question_type}}</td>
-        <td>{{$result->default_score}}</td>
-        <td>{{$result->answers}}</td>
+        <td>@foreach($result->answers as $answer)
+        ({{$loop->index + 1}}){{$answer}}--
+        @endforeach</td>
         <td>{{$result->correct_answer}}</td>
         <td>{{$result->instructor->name}}</td>
         <input type="hidden" name="question_id" value="{{$result->id}}">
-        <td><a href="{{route('instructors.questions.edit.multipleChoice',$result->id)}}" class="btn btn-warning">Edit</a></td>
         <td><input type="submit" value="delete" name="confirmation" class="btn btn-danger"></td>
     </tr>
     </form>

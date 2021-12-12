@@ -78,13 +78,12 @@ Descriptive
         <th scope="col">title</th>
         <th scope="col">content</th>
         <th scope="col">author</th>
-        <th scope="col">edit</th>
         <th scope="col">delete</th>
     </tr>
 </thead>
 <tbody>
     @foreach($results as $result)
-    <form method="post" action="{{route('instructors.questions.delete.descriptive',$result->id)}}">
+    <form method="post" action="{{route('instructors.questions.destroy',$result->id)}}">
     @csrf
     @method('delete')
     <tr>
@@ -93,7 +92,6 @@ Descriptive
         <td>{{$result->content}}</td>
         <td>{{$result->instructor->name}}</td>
         <input type="hidden" name="question_id" value="{{$result->id}}">
-        <td><a href="{{route('instructors.questions.edit.descriptive',$result->id)}}" class="btn btn-warning">Edit</a></td>
         <td><input type="submit" value="delete" name="confirmation" class="btn btn-danger"></td>
     </tr>
     </form>

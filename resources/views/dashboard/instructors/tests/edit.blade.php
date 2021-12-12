@@ -125,7 +125,6 @@ Test Edit
         <th scope="col">answers</th>
         <th scope="col">correct answer</th>
         <th scope="col">author</th>
-        <th scope="col">edit</th>
         <th scope="col">delete</th>
     </tr>
 </thead>
@@ -140,15 +139,17 @@ Test Edit
         <td>{{$result->content}}</td>
         <td>{{$result->questionType->question_type}}</td>
         <td>{{$result->pivot->default_score}}</td>
-        <td>{{$result->answers}}</td>
+        @if($result->question_type_id == 2)
+        <td>@foreach($result->answers as $answer)
+        ({{$loop->index + 1}}){{$answer}}--
+        @endforeach</td>
         <td>{{$result->correct_answer}}</td>
+        @else
+        <td></td>
+        <td></td>
+        @endif
         <td>{{$result->instructor->name}}</td>
         <input type="hidden" name="question_id" value="{{$result->id}}">
-        @if($result->question_type_id == 1)
-        <td><a href="{{route('instructors.questions.edit.descriptive',$result->id)}}" class="btn btn-warning">Edit</a></td>
-        @elseif($result->question_type_id == 2)
-        <td><a href="{{route('instructors.questions.edit.multipleChoice',$result->id)}}" class="btn btn-warning">Edit</a></td>
-        @endif
         <td><input type="submit" value="delete" name="confirmation" class="btn btn-danger"></td>
     </tr>
     </form>

@@ -13,15 +13,25 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
+use function PHPUnit\Framework\isNull;
 
 class TestController extends Controller
 {
     public function addQuestion($id,Request $request): RedirectResponse
     {
-        $selected = $request->select;
+
+        if(!is_array($request->select)){
+            $selected = [$request->select];
+        }else{
+            $selected = $request->select;
+        }
         $exam = Test::find($id);
         foreach ($selected as $select){
-            $exam->questions()->attach($select);
+            $score = 'score' . $select;
+            if(!(!$request->$score)){
+            $exam->questions()->attach($select,['default_score' => $request->$score]);
+
+            }
         }
         return redirect()
             ->route('instructors.exams.edit',$id)
@@ -76,7 +86,7 @@ class TestController extends Controller
             ->with('error', 'Error!');
     }
 
-    public function create(Request $request): Factory|View|Application
+    public function create(): Factory|View|Application
     {
         $courses = Auth::user()->courses()->where('ended_at', '>',Carbon::now())->get();
         return view('dashboard.instructors.tests.create',['courses' => $courses]);

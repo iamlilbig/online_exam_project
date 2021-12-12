@@ -35,12 +35,12 @@ Create Descriptive
             <select class="form-select" aria-label="Default select example" name="test_id">
             @foreach($exams as $exam)
                 @if ($loop->first)
-                    <option selected>Select an exam</option>
+                    <option value="" selected>Select an exam</option>
                 @endif
               <option value="{{$exam->id}}">{{$exam->title}}</option>
             @endforeach
             </select>
-            <label for="test_id">select test (nullable)</label>
+            <label for="test_id">select test</label>
             </div>
             <div class="form-floating mb-3">
                 <input class="form-control" id="inputTime" name="default_score" type="number" placeholder="Enter time" />

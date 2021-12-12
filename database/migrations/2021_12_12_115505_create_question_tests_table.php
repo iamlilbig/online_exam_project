@@ -16,8 +16,9 @@ class CreateQuestionTestsTable extends Migration
         Schema::create('question_tests', function (Blueprint $table) {
             $table->unsignedBigInteger('test_id');
             $table->unsignedBigInteger('question_id');
-            $table->foreign('test_id')->references('id')->on('tests');
-            $table->foreign('question_id')->references('id')->on('questions');
+            $table->foreign('test_id')->references('id')->on('tests')->onDelete('cascade');
+            $table->foreign('question_id')->references('id')->on('questions')->onDelete('cascade');
+            $table->string('default_score');
         });
     }
 
@@ -28,6 +29,8 @@ class CreateQuestionTestsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('question_tests');
+        Schema::table('question_tests', function (Blueprint $table) {
+            //
+        });
     }
 }

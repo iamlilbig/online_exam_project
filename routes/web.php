@@ -273,16 +273,10 @@ Route::prefix('instructors')->middleware('auth:instructor')->group(function () {
         ])->name('instructors.questions.store.descriptive');
         });
 
-        Route::prefix('{id}/delete')->group(function(){
 
-        Route::delete('multipleChoice',[
-            QuestionController::class,'deleteMultipleChoice'
-        ])->name('instructors.questions.delete.multipleChoice');
-
-        Route::delete('descriptive',[
-            QuestionController::class,'deleteDescriptive'
-        ])->name('instructors.questions.delete.descriptive');
-        });
+        Route::delete('{id}',[
+            QuestionController::class,'destroy'
+        ])->name('instructors.questions.destroy');
 
         Route::prefix('{id}/update')->group(function(){
 
@@ -325,7 +319,7 @@ Route::prefix('instructors')->middleware('auth:instructor')->group(function () {
             TestController::class,'update'
         ])->name('instructors.exams.update');
 
-        Route::delete('{id}',[
+        Route::get('{id}',[
             TestController::class,'destroy'
         ])->name('instructors.exams.delete');
 

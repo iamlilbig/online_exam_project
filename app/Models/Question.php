@@ -13,7 +13,7 @@ class Question extends Model
 
     public function tests(): BelongsToMany
     {
-        return $this->belongsToMany(Test::class,'question_tests');
+        return $this->belongsToMany(Test::class,'question_tests')->withPivot('default_score')->using(QuestionTest::class);
     }
 
     public function instructor(): BelongsTo
@@ -25,6 +25,10 @@ class Question extends Model
     {
         return $this->belongsTo(QuestionType::class);
     }
+
+    protected $casts = [
+      'answers' => 'array'
+    ];
 
     protected $fillable = [
         'instructor_id',

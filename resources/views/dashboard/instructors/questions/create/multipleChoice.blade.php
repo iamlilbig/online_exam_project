@@ -10,7 +10,7 @@ $(document).ready(function(){
     var maxField = 10; //Input fields increment limitation
     var addButton = $('.add_button'); //Add button selector
     var wrapper = $('.field_wrapper'); //Input field wrapper
-    var fieldHTML = '<div><input class="form-control" type="text" name="field_name[]" value=""/><a href="javascript:void(0);" class="remove_button btn btn-danger">REMOVE FIELD</a></div>'; //New input field html
+    var fieldHTML = '<div><input class="form-control" type="text" name="answers[]" value=""/><a href="javascript:void(0);" class="remove_button btn btn-danger">REMOVE FIELD</a></div>'; //New input field html
     var x = 1; //Initial field counter is 1
 
     //Once add button is clicked
@@ -33,12 +33,6 @@ $(document).ready(function(){
 
 @endsection
 @section('content')
-
-
-
-
-
-
 
 <div class="container mb-5">
     <div class="row justify-content-center">
@@ -63,11 +57,11 @@ $(document).ready(function(){
                 <label for="inputName">Title</label>
             </div>
             <div class="form-floating mb-3">
-                <textarea class="form-control" name="description" id="inputDescription"></textarea>
+                <textarea class="form-control" name="content" id="inputDescription"></textarea>
                 <label for="inputDescription" class="form-label">Content</label>
             </div>
             <div class="field_wrapper form-floating mb-3">
-                <input type="text" class="form-control" name="field_name[]" id="inputTests" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1">
+                <input type="text" class="form-control" name="answers[]" id="inputTests" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1">
                 <label for="inputTests">New Choose</label>
                 <a href="javascript:void(0);" class="add_button" title="Add field"><button class="btn btn-outline-primary" type="button" id="button-addon1">ADD FIELD</button></a>
             </div>
@@ -79,12 +73,12 @@ $(document).ready(function(){
             <select class="form-select" aria-label="Default select example" name="test_id">
             @foreach($exams as $exam)
                 @if ($loop->first)
-                    <option selected>Select an exam</option>
+                    <option value="" selected>Select an exam</option>
                 @endif
               <option value="{{$exam->id}}">{{$exam->title}}</option>
             @endforeach
             </select>
-            <label for="test_id">select test (nullable)</label>
+            <label for="test_id">select test</label>
             </div>
             <div class="form-floating mb-3">
                 <input class="form-control" id="inputTime" name="default_score" type="number" placeholder="Enter time" />
