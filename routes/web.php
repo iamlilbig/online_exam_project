@@ -295,6 +295,10 @@ Route::prefix('instructors')->middleware('auth:instructor')->group(function () {
             TestController::class,'edit'
         ])->name('instructors.exams.edit');
 
+        Route::get('create',[
+            TestController::class,'create'
+        ])->name('instructors.exams.create');
+
         Route::put('{id}/edit',[
             TestController::class,'addQuestion'
         ])->name('instructors.exams.questions.add');
@@ -303,7 +307,7 @@ Route::prefix('instructors')->middleware('auth:instructor')->group(function () {
             TestController::class,'deleteQuestion'
         ])->name('instructors.exams.questions.delete');
 
-        Route::get('/active',[
+        Route::get('active',[
             TestController::class,'active'
         ])->name('instructors.exams.active');
 
@@ -311,7 +315,7 @@ Route::prefix('instructors')->middleware('auth:instructor')->group(function () {
             TestController::class,'questionBank'
         ])->name('instructors.exams.questionBank');
 
-        Route::get('/past',[
+        Route::get('past',[
             TestController::class,'past'
             ])->name('instructors.exams.past');
 
@@ -323,17 +327,12 @@ Route::prefix('instructors')->middleware('auth:instructor')->group(function () {
             TestController::class,'destroy'
         ])->name('instructors.exams.delete');
 
-        Route::get('/create',[
-            TestController::class,'create'
-        ])->name('instructors.exams.create');
-
         Route::post('/',[
             TestController::class,'store'
         ])->name('instructors.exams.store');
     });
 
 });
-
 
 Route::prefix('students')->middleware('auth:student')->group(function () {
 

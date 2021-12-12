@@ -113,7 +113,7 @@ class TestController extends Controller
             ->with('error', 'Error!');
     }
 
-    public function active()
+    public function active(): Factory|View|Application
     {
         $instructor = Instructor::query()->where('id',Auth::guard('instructor')->user()->id)->first();
         $tests = $instructor->tests->where('date', '>',Carbon::now());
