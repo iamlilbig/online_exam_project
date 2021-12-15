@@ -317,7 +317,7 @@ Route::prefix('instructors')->middleware('auth:instructor')->group(function () {
 
         Route::get('past',[
             TestController::class,'past'
-            ])->name('instructors.exams.past');
+        ])->name('instructors.exams.past');
 
         Route::put('{id}',[
             TestController::class,'update'
@@ -335,5 +335,12 @@ Route::prefix('instructors')->middleware('auth:instructor')->group(function () {
 });
 
 Route::prefix('students')->middleware('auth:student')->group(function () {
+    Route::get('logout',[
+        InstructorController::class,'logout'
+    ])->name('instructors.logout');
+
+    Route::get('/',[
+        InstructorController::class,'dashboard'
+    ])->name('instructors.home');
 
 });

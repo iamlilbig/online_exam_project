@@ -123,9 +123,7 @@ Course Information
         </a>
         </td>
         <td>
-        <form method="post" action="{{route('instructors.exams.delete',['id' => $exam->id])}}">
-        @csrf
-        @method('delete')
+        <form method="get" action="{{route('instructors.exams.delete',['id' => $exam->id])}}">
         <input type="submit" class="btn btn-danger" name="submit" value="delete">
         </form>
         </td>

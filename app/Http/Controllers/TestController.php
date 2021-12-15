@@ -76,7 +76,7 @@ class TestController extends Controller
             'date' => ['required','date','date_format:Y-m-d',],
         ])->validated();
 
-        if(Test::query()->update($validate)){
+        if(Test::query()->where('id',$id)->update($validate)){
             return redirect()
                 ->back()
                 ->with('success', 'the course is successfully updated');
@@ -117,6 +117,16 @@ class TestController extends Controller
     {
         $instructor = Instructor::query()->where('id',Auth::guard('instructor')->user()->id)->first();
         $tests = $instructor->tests->where('date', '>',Carbon::now());
+//        $default = [];
+//        foreach ($tests as $exam){
+//            $sum = 0;
+//            foreach ($exam->questions as $question){
+//                $sum += $question->pivot->default_score;
+//                dd($sum);
+//            }
+//            $defualt[$exam->title] = $sum;
+//        }
+//        dd($default);
         return view('dashboard.instructors.tests.active',['results' => $tests]);
     }
 

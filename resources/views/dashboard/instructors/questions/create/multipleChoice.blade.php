@@ -75,7 +75,7 @@ $(document).ready(function(){
                 @if ($loop->first)
                     <option value="" selected>Select an exam</option>
                 @endif
-              <option value="{{$exam->id}}">{{$exam->title}}</option>
+              <option value="{{$exam->id}}">{{$exam->title."------------".$exam->course->title}}</option>
             @endforeach
             </select>
             <label for="test_id">select test</label>
