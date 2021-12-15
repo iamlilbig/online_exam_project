@@ -336,11 +336,11 @@ Route::prefix('instructors')->middleware('auth:instructor')->group(function () {
 
 Route::prefix('students')->middleware('auth:student')->group(function () {
     Route::get('logout',[
-        InstructorController::class,'logout'
+        StudentController::class,'logout'
     ])->name('instructors.logout');
 
     Route::get('/',[
-        InstructorController::class,'dashboard'
+        StudentController::class,'dashboard'
     ])->name('instructors.home');
 
 });
