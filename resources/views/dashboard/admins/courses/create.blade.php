@@ -22,7 +22,7 @@ Create course
                 <option value="{{$instructor->id}}">(instructor name: {{$instructor->name}}) (instructor email: {{$instructor->email}})</option>
                 @endforeach
             </select>
-            <label for="instructor_id" class="form-label">Course Description</label>
+            <label for="instructor_id" class="form-label">Instructor</label>
             </div>
             <div class="form-floating mb-3">
                 <textarea class="form-control" name="description" id="inputDescription"></textarea>

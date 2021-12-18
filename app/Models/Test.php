@@ -18,8 +18,7 @@ class Test extends Model
     'duration',
     'date',
     'total_score',
-    'date',
-    'time',
+    'datetime',
     ];
 
     public function course(): BelongsTo

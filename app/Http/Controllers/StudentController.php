@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Course;
 use App\Models\Student;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -19,10 +20,26 @@ use Illuminate\Validation\ValidationException;
 
 class StudentController extends Controller
 {
+    public function exams($id)
+    {
+        $exams = (Course::find($id))->tests()->where()->get();
+    }
+
+    public function courses()
+    {
+        $courses = Auth::user()->courses()->get();
+
+        return view('dashboard.students.courses.active',['results'=>$courses]);
+    }
+
+    public function dashboard()
+    {
+        return view('dashboard.students.dashboard');
+    }
 
     public function edit($id): Factory|View|Application
     {
-        if($users = Student::query()->where('id',$id)->get()){
+        if($users = Student::query()->where('id',$id)->first()){
             foreach($users as $user)
                 return view('dashboard.admins.students.edit',['user' => $user]);
         }
@@ -142,8 +159,7 @@ class StudentController extends Controller
 
 
         if(Auth::guard('student')->attempt($credentials)){
-            abort(200);
-            return redirect(route('home'));
+            return redirect(route('students.home'));
         }
         return redirect()->back()->withErrors('your inputs are invalid or your account is not confirm');
     }

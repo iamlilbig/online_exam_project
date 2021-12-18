@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Course;
 use App\Models\CourseStudent;
 use App\Models\Instructor;
+use App\Models\Student;
 use Carbon\Carbon;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -105,17 +106,20 @@ class CourseController extends Controller
 
     public function addStudent(Request $request,$id)
     {
-        if (CourseStudent::query()->where('course_id' , $id)->where('student_id',$request->student_id,)->first()) {
+        $course = Course::find($id);
+        if ($course->students()->where('student_id',$request->student_id)->exists()) {
             return redirect()
                 ->back()
                 ->with('error', 'student already exist!');
         }
-            CourseStudent::create([
-            'course_id' => $id,
-            'student_id' => $request->student_id,
-        ]);
+        if(Student::find($request->student_id)){
+            $course->students()->attach($request->student);
+            return redirect()
+                ->back()
+                ->with('success', 'the student successfully added!');
+        }
         return redirect()
             ->back()
-            ->with('success', 'the student successfully added');
+            ->with('error', 'the student not exist!');
     }
 }

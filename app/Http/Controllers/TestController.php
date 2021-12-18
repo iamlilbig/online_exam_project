@@ -75,11 +75,13 @@ class TestController extends Controller
             'time' => ['required',],
             'date' => ['required','date','date_format:Y-m-d',],
         ])->validated();
-
+        $validate['datetime'] = $validate['date'].'T'.$validate['time'];
+        unset($validate['date']);
+        unset($validate['time']);
         if(Test::query()->where('id',$id)->update($validate)){
             return redirect()
-                ->back()
-                ->with('success', 'the course is successfully updated');
+                ->route('instructors.exams.active')
+                ->with('success', 'the exam is successfully updated');
         }
         return redirect()
             ->back()
@@ -102,11 +104,13 @@ class TestController extends Controller
             'time' => ['required',],
             'date' => ['required','date','date_format:Y-m-d',],
         ])->validated();
-
+        $validate['datetime'] = $validate['date'].' '.$validate['time'].':00';
+        unset($validate['date']);
+        unset($validate['time']);
         if(Test::query()->create($validate)){
             return redirect()
-                ->back()
-                ->with('success', 'the course is successfully created');
+                ->route('instructors.exams.active')
+                ->with('success', 'the exam is successfully created');
         }
         return redirect()
             ->back()
@@ -116,25 +120,31 @@ class TestController extends Controller
     public function active(): Factory|View|Application
     {
         $instructor = Instructor::query()->where('id',Auth::guard('instructor')->user()->id)->first();
-        $tests = $instructor->tests->where('date', '>',Carbon::now());
-//        $default = [];
-//        foreach ($tests as $exam){
-//            $sum = 0;
-//            foreach ($exam->questions as $question){
-//                $sum += $question->pivot->default_score;
-//                dd($sum);
-//            }
-//            $defualt[$exam->title] = $sum;
-//        }
-//        dd($default);
-        return view('dashboard.instructors.tests.active',['results' => $tests]);
+        $tests = $instructor->tests->where('datetime', '>',Carbon::now());
+        $default = [];
+        foreach ($tests as $exam){
+            $sum = 0;
+            foreach ($exam->questions as $question){
+                $sum += $question->pivot->default_score;
+            }
+            $default[$exam->title] = $sum;
+        }
+        return view('dashboard.instructors.tests.active',['results' => $tests,'scores'=>$default]);
     }
 
     public function past()
     {
         $instructor = Instructor::query()->where('id',Auth::guard('instructor')->user()->id)->first();
-        $tests = $instructor->tests->where('date', '<',Carbon::now());
-        return view('dashboard.instructors.tests.past',['results' => $tests]);
+        $tests = $instructor->tests->where('datetime', '<',Carbon::now());
+        $default = [];
+        foreach ($tests as $exam){
+            $sum = 0;
+            foreach ($exam->questions as $question){
+                $sum += $question->pivot->default_score;
+            }
+            $default[$exam->title] = $sum;
+        }
+        return view('dashboard.instructors.tests.past',['results' => $tests,'scores'=>$default]);
     }
 
     public function destroy($id)

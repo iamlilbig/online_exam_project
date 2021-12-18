@@ -88,7 +88,6 @@ Course Information
         <th scope="col">duration</th>
         <th scope="col">total score</th>
         <th scope="col">start date</th>
-        <th scope="col">start time</th>
         <th scope="col">edit exam</th>
         <th scope="col">delete exam</th>
     </tr>
@@ -109,13 +108,10 @@ Course Information
         <input class="form-control" id="inputTitle" value="{{$exam->duration}}" name="title" type="text" placeholder="courseTitle" disabled readonly/>
         </td>
         <td>
-        <input class="form-control" id="inputTitle" value="{{$exam->total_score}}" name="title" type="text" placeholder="courseTitle" disabled readonly/>
+        <input class="form-control" id="inputTitle" value="{{$scores[$exam->title]}}" name="title" type="text" placeholder="courseTitle" disabled readonly/>
         </td>
         <td>
-        <input class="form-control" id="inputTitle" value="{{$exam->date}}" name="title" type="text" placeholder="courseTitle" disabled readonly/>
-        </td>
-        <td>
-        <input class="form-control" id="inputTitle" value="{{$exam->time}}" name="title" type="text" placeholder="courseTitle" disabled readonly/>
+        <input class="form-control" id="inputTitle" value="{{$exam->datetime}}" name="title" type="text" placeholder="courseTitle" disabled readonly/>
         </td>
         <td>
         <a href="{{route('instructors.exams.edit',['id' => $exam->id])}}">

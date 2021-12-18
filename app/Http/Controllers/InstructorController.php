@@ -226,6 +226,14 @@ class InstructorController extends Controller
         $course = Course::find($id);
         $students = $course->students;
         $exams = $course->tests;
-        return view('dashboard.instructors.courses.show',['course'=>$course,'students'=>$students,'exams'=>$exams]);
+        $default = [];
+        foreach ($exams as $exam){
+            $sum = 0;
+            foreach ($exam->questions as $question){
+                $sum += $question->pivot->default_score;
+            }
+            $default[$exam->title] = $sum;
+        }
+        return view('dashboard.instructors.courses.show',['course'=>$course,'students'=>$students,'exams'=>$exams,'scores'=>$default]);
     }
 }

@@ -33,8 +33,7 @@ Past Tests
         <th scope="col">description</th>
         <th scope="col">duration</th>
         <th scope="col">total score</th>
-        <th scope="col">date</th>
-        <th scope="col">time</th>
+        <th scope="col">start</th>
         <th scope="col">information</th>
     </tr>
 </thead>
@@ -45,9 +44,8 @@ Past Tests
         <td>{{$result->title}}</td>
         <td>{{$result->course->unique_id}}</td>
         <td>{{$result->description}}</td>
-        <td>NULL</td>
-        <td>{{$result->date}}</td>
-        <td>{{$result->time}}</td>
+        <td>{{$scores[$result->title]}}</td>
+        <td>{{$result->datetime}}</td>
         <td><a href="{{route('instructors.exams.edit')}}"><button class="btn btn-primary">more information</button></a></td>
     </tr>
     @endforeach

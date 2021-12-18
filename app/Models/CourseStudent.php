@@ -4,8 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\Pivot;
 
-class CourseStudent extends Model
+class CourseStudent extends pivot
 {
     use HasFactory;
 
@@ -15,4 +16,6 @@ class CourseStudent extends Model
     ];
 
     public $timestamps = false;
+
+    protected $table= 'course_students';
 }

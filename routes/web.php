@@ -104,7 +104,6 @@ Route::prefix('admins')->middleware('auth:admin')->group(function () {
 
     });
 
-
     Route::prefix('edit')->group(function () {
         Route::get('Students/{id}',[
             StudentController::class,'edit'
@@ -180,7 +179,6 @@ Route::prefix('admins')->middleware('auth:admin')->group(function () {
             CourseController::class,'activeCourses'
         ])->name('admin.courses.active');
     });
-
 
     Route::prefix('instructors')->group(function () {
        Route::get('active',[
@@ -337,10 +335,20 @@ Route::prefix('instructors')->middleware('auth:instructor')->group(function () {
 Route::prefix('students')->middleware('auth:student')->group(function () {
     Route::get('logout',[
         StudentController::class,'logout'
-    ])->name('instructors.logout');
+    ])->name('students.logout');
+
+    Route::prefix('courses')->group(function () {
+       Route::get('/',[
+           StudentController::class,'courses'
+       ])->name('students.courses');
+
+       Route::get('exams/{id}',[
+           StudentController::class,'exams'
+       ])->name('students.courses.exams');
+    });
 
     Route::get('/',[
         StudentController::class,'dashboard'
-    ])->name('instructors.home');
+    ])->name('students.home');
 
 });
