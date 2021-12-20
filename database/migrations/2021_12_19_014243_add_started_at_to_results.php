@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddInstructorIdToCourses extends Migration
+class AddStartedAtToResults extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,9 @@ class AddInstructorIdToCourses extends Migration
      */
     public function up()
     {
-        Schema::table('courses', function (Blueprint $table) {
-            $table->unsignedBigInteger('instructor_id')->after('title');
-            $table->foreign('instructor_id')->references('id')->on('instructors');
+        Schema::table('results', function (Blueprint $table) {
+            $table->datetime('ended_at');
+            $table->string('score')->nullable()->change();
         });
     }
 
@@ -26,8 +26,8 @@ class AddInstructorIdToCourses extends Migration
      */
     public function down()
     {
-        Schema::table('courses', function (Blueprint $table) {
-            $table->dropColumn('instructor_id');
+        Schema::table('results', function (Blueprint $table) {
+            //
         });
     }
 }

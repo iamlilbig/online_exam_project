@@ -2,8 +2,8 @@
 
 namespace Database\Factories;
 
-use App\Models\Instructor;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 class CourseFactory extends Factory
 {
@@ -15,12 +15,14 @@ class CourseFactory extends Factory
     public function definition()
     {
         return [
-            'unique_id' => $this->faker->unique()->name,
-            'title' => $this->faker->title,
-            'instructor_id' => rand(0,10),
-            'description' => $this->faker->text(100),
-            'started_at' => $this->faker->date(),
-            'ended_at' => $this->faker->date(),
+            'unique_id' => Str::random(10),
+            'title' => Str::random(10),
+            'instructor_id' => 1,
+            'description' => Str::random(50),
+            'started_at' => '2021-10-10 10:00:00',
+            'ended_At' => '2022-10-10 10:00:00',
+            'created_at' => now(),
+            'updated_at' => now(),
         ];
     }
 }

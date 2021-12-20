@@ -16,13 +16,13 @@ class QuestionController extends Controller
 {
     public function createMultipleChoice(): Factory|View|Application
     {
-        $tests = Auth::user()->tests->where('datetime', '>',Carbon::now());
+        $tests = Auth::user()->tests->where('endtime', '>',Carbon::now());
         return view('dashboard.instructors.questions.create.multipleChoice',['exams'=> $tests]);
     }
 
     public function createDescriptive(): Factory|View|Application
     {
-        $tests = Auth::user()->tests->where('datetime', '>',Carbon::now());
+        $tests = Auth::user()->tests->where('endtime', '>',Carbon::now());
         return view('dashboard.instructors.questions.create.descriptive',['exams'=> $tests]);
     }
 

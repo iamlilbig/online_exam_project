@@ -34,6 +34,7 @@ Active Tests
         <th scope="col">Duration</th>
         <th scope="col">Total score</th>
         <th scope="col">start</th>
+        <th scope="col">end</th>
         <th scope="col">Information</th>
         <th scope="col">Delete</th>
     </tr>
@@ -48,6 +49,7 @@ Active Tests
         <td>{{$result->duration}}</td>
         <td>{{$scores[$result->title]}}</td>
         <td>{{$result->datetime}}</td>
+        <td>{{$result->endtime}}</td>
         <td><a href="{{route('instructors.exams.edit',['id'=>$result->id])}}"><button class="btn btn-primary">More information</button></a></td>
         <td><a href="{{route('instructors.exams.delete',['id'=>$result->id])}}"><button class="btn btn-danger">Delete</button></a></td>
     </tr>

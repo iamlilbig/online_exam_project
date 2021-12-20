@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Course;
 use App\Models\Instructor;
+use App\Models\Notification;
 use App\Models\Student;
 use Carbon\Carbon;
 use Illuminate\Contracts\Foundation\Application;
@@ -25,6 +26,33 @@ class InstructorController extends Controller
     {
 //        $this->middleware('can:instructor');
 //        $this->middleware('can:admin');
+    }
+
+    public function deleteNotification($id): RedirectResponse
+    {
+        Notification::query()->where('id',$id)->delete();
+        return redirect()
+            ->route('instructors.notifications')
+            ->with('success','notification successfully deleted!');
+    }
+    public function readNotification($id): RedirectResponse
+    {
+        if($id == 'all'){
+            (Auth::user())->unreadNotifications->markAsRead();
+        }else{
+            Notification::query()->where('id',$id)->update([
+                'read_at' => now()
+            ]);
+        }
+        return redirect()
+            ->route('instructors.notifications');
+    }
+
+    public function notifications(): Factory|View|Application
+    {
+        $unreadNotifications = Auth::user()->unreadNotifications()->where('deleted_at','==',null)->get();
+        $notifications = Auth::user()->readNotifications()->where('deleted_at','==',null)->get();
+        return view('dashboard.instructors.notification',['unreadNotifications'=> $unreadNotifications,'readNotifications'=> $notifications]);
     }
 
     public function edit($id): Application|Factory|View

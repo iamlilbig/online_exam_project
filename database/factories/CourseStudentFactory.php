@@ -2,8 +2,6 @@
 
 namespace Database\Factories;
 
-use App\Models\Course;
-use App\Models\Student;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class CourseStudentFactory extends Factory
@@ -16,8 +14,8 @@ class CourseStudentFactory extends Factory
     public function definition()
     {
         return [
-            'course_id' => rand(0,10),
-            'student_id' => rand(0,10)
+            'student_id' => 1,
+            'course_id' => $this->faker->unique()->numberBetween(1,5)
         ];
     }
 }

@@ -19,11 +19,16 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        CourseStudent::factory(10)->make();
-        Test::factory(10)->make();
-        Student::factory(10)->make();
-        Instructor::factory(10)->make();
-        Course::factory(10)->make();
-        Admin::factory(1)->make();
+        $this->call([
+            QuestionTypeSeeder::class,
+            StudentSeeder::class,
+            AdminSeeder::class,
+            InstructorSeeder::class,
+        ]);
+        Course::factory()->count(5)->has(Test::factory()
+            ->count(5),'tests')
+            ->has(Student::factory()
+                ->count(15),'students')
+            ->create();
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Course;
+use App\Models\Notification;
 use App\Models\Student;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -11,6 +12,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Routing\Redirector;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -20,9 +22,87 @@ use Illuminate\Validation\ValidationException;
 
 class StudentController extends Controller
 {
+    public function deleteNotification($id): RedirectResponse
+    {
+        Notification::query()->where('id',$id)->delete();
+        return redirect()
+            ->route('students.notifications')
+            ->with('success','notification successfully deleted!');
+    }
+    public function readNotification($id): RedirectResponse
+    {
+        if($id == 'all'){
+            (Auth::user())->unreadNotifications->markAsRead();
+        }else{
+            Notification::query()->where('id',$id)->update([
+                'read_at' => now()
+            ]);
+        }
+        return redirect()
+            ->route('students.notifications');
+    }
+
+    public function notifications(): Factory|View|Application
+    {
+        $unreadNotifications = Auth::user()->unreadNotifications()->where('deleted_at',null)->get();
+        $notifications = Auth::user()->readNotifications()->where('deleted_at',null)->get();
+        return view('dashboard.students.notification',['unreadNotifications'=> $unreadNotifications,'readNotifications'=> $notifications]);
+    }
+
+    public function futureExams()
+    {
+        $user = Auth::user();
+        $courses = $user->courses()->get();
+        $exams = [];
+        foreach ($courses as $course){
+            $exams[$course->id] = $course->tests()->where('datetime','>',Carbon::now())->get();
+        }
+        $default = [];
+        foreach ($exams as $test){
+            foreach($test as $exam) {
+                $sum = 0;
+                foreach ($exam->questions as $question) {
+                    $sum += $question->pivot->default_score;
+                }
+                $default[$exam->title] = $sum;
+            }
+        }
+        return view('dashboard.students.exams.future',['results'=>$exams,'scores'=>$default]);
+    }
+
+    public function activeExams()
+    {
+        $user = Auth::user();
+        $courses = $user->courses()->get();
+        $exams = [];
+        foreach ($courses as $course){
+            $exams[$course->id] = $course->tests()->where('datetime','<',Carbon::now())->where('endtime','>',Carbon::now())->get();
+        }
+        $default = [];
+        foreach ($exams as $test){
+            foreach($test as $exam) {
+                $sum = 0;
+                foreach ($exam->questions as $question) {
+                    $sum += $question->pivot->default_score;
+                }
+                $default[$exam->title] = $sum;
+            }
+        }
+        return view('dashboard.students.exams.active',['results'=>$exams,'scores'=>$default]);
+    }
+
     public function exams($id)
     {
-        $exams = (Course::find($id))->tests()->where()->get();
+        $exams = (Course::find($id))->tests()->where('endtime','>',Carbon::now())->where('datetime','<',Carbon::now())->get();
+        $default = [];
+            foreach($exams as $exam) {
+                $sum = 0;
+                foreach ($exam->questions as $question) {
+                    $sum += $question->pivot->default_score;
+                }
+                $default[$exam->title] = $sum;
+        }
+        return view('dashboard.students.courses.show',['results'=>$exams,'scores'=>$default]);
     }
 
     public function courses()
@@ -39,9 +119,8 @@ class StudentController extends Controller
 
     public function edit($id): Factory|View|Application
     {
-        if($users = Student::query()->where('id',$id)->first()){
-            foreach($users as $user)
-                return view('dashboard.admins.students.edit',['user' => $user]);
+        if($user=Student::find($id)){
+            return view('dashboard.admins.students.edit', ['user' => $user]);
         }
         return redirect()->back();
     }

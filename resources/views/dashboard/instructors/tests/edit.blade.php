@@ -18,8 +18,20 @@ Test Edit
                 <label for="inputDescription" class="form-label">Course Description</label>
             </div>
             <div class="form-floating mb-3">
-                <input class="form-control" id="inputDate" name="date" value="{{$exams->date}}" type="date" placeholder="Enter date" />
+                <input class="form-control" id="inputDate" name="date" value="{{$exams->datetime}}" type="date" placeholder="Enter date" />
                 <label for="inputDate">Date</label>
+            </div>
+            <div class="form-floating mb-3">
+              <input type="time" id="inputMDEx1" class="form-control" name="time" required>
+              <label for="inputMDEx1">Choose your time</label>
+            </div>
+            <div class="form-floating mb-3">
+                <input class="form-control" id="inputEndDate" name="endDate" value="{{$exams->endtime}}" type="date" placeholder="Enter date" />
+                <label for="inputEndDate">End Date</label>
+            </div>
+            <div class="form-floating mb-3">
+              <input type="time" id="inputEndTime" class="form-control" name="endTime" required>
+              <label for="inputEndTime">Choose end time</label>
             </div>
             <div class="form-floating mb-3">
             <select class="form-select" aria-label="Default select example" name="course_id">
@@ -31,10 +43,6 @@ Test Edit
               <option value="{{$course->id}}">{{$course->unique_id}}</option>
             @endforeach
             </select>
-            </div>
-            <div class="form-floating mb-3">
-              <input type="time" id="inputMDEx1" class="form-control" name="time" required>
-              <label for="inputMDEx1">Choose your time</label>
             </div>
             <div class="form-floating mb-3">
                 <input class="form-control" id="inputTime" name="duration" type="number" value="{{$exams->duration}}" placeholder="Enter time" />

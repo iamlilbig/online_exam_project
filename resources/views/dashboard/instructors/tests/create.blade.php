@@ -21,6 +21,18 @@ Create Test
                 <label for="inputDate">Date</label>
             </div>
             <div class="form-floating mb-3">
+              <input type="time" id="inputMDEx1" class="form-control" name="time">
+              <label for="inputMDEx1">Choose your time</label>
+            </div>
+            <div class="form-floating mb-3">
+                <input class="form-control" id="inputEndDate" name="endDate" type="date" placeholder="Enter date" />
+                <label for="inputEndDate">End Date</label>
+            </div>
+            <div class="form-floating mb-3">
+              <input type="time" id="inputEndTime" class="form-control" name="endTime">
+              <label for="inputEndTime">End Time</label>
+            </div>
+            <div class="form-floating mb-3">
             <select class="form-select" aria-label="Default select example" name="course_id">
             @foreach($courses as $course)
                 @if ($loop->first)
@@ -30,10 +42,6 @@ Create Test
               <option value="{{$course->id}}">{{$course->unique_id}}</option>
             @endforeach
             </select>
-            </div>
-            <div class="form-floating mb-3">
-              <input type="time" id="inputMDEx1" class="form-control" name="time">
-              <label for="inputMDEx1">Choose your time</label>
             </div>
             <div class="form-floating mb-3">
                 <input class="form-control" id="inputTime" name="duration" type="number" placeholder="Enter time" />

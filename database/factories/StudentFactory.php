@@ -3,7 +3,7 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class StudentFactory extends Factory
 {
@@ -15,13 +15,12 @@ class StudentFactory extends Factory
     public function definition()
     {
         return [
-            'phone' => $this->faker->phoneNumber(),
-            'email' => $this->faker->email(),
-            'password' => Hash::make(11338822),
             'name' => $this->faker->name(),
-            'is_active' => '1',
-            'is_confirmed' => '1'
-
+            'email' => $this->faker->unique()->safeEmail(),
+            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+            'phone' => '0903'.$this->faker->unique()->numberBetween(1000000,9999999),
+            'is_active' => 1,
+            'is_confirmed' => 1
         ];
     }
 }

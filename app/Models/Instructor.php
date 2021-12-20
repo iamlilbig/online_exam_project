@@ -7,11 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 
 class Instructor extends Authenticatable
 
 {
-    use HasFactory;
+    use HasFactory,Notifiable;
     protected $fillable=[
         'phone',
         'name',

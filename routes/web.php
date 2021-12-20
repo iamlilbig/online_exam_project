@@ -211,6 +211,18 @@ Route::prefix('instructors')->middleware('auth:instructor')->group(function () {
         InstructorController::class,'dashboard'
     ])->name('instructors.home');
 
+    Route::get('/notifications',[
+        InstructorController::class,'notifications'
+    ])->name('instructors.notifications');
+
+    Route::get('notifications/{id}/read',[
+        InstructorController::class,'readNotification'
+    ])->name('instructors.notifications.read');
+
+    Route::get('/notifications/{id}/delete',[
+        InstructorController::class,'deleteNotification'
+    ])->name('instructors.notifications.delete');
+
     Route::prefix('courses')->group(function(){
         Route::get('past',[
             InstructorController::class,'pastCourses'
@@ -342,13 +354,55 @@ Route::prefix('students')->middleware('auth:student')->group(function () {
            StudentController::class,'courses'
        ])->name('students.courses');
 
-       Route::get('exams/{id}',[
+       Route::get('{id}/exams',[
            StudentController::class,'exams'
        ])->name('students.courses.exams');
     });
 
+    Route::get('/notifications/{id}/read',[
+        StudentController::class,'readNotification'
+    ])->name('students.notifications.read');
+
+    Route::get('/notifications/{id}/delete',[
+        StudentController::class,'deleteNotification'
+    ])->name('students.notifications.delete');
+
+
     Route::get('/',[
         StudentController::class,'dashboard'
     ])->name('students.home');
+
+    Route::get('/notifications',[
+        StudentController::class,'notifications'
+    ])->name('students.notifications');
+
+    Route::prefix('exams')->group(function () {
+       Route::get('active',[
+           StudentController::class,'activeExams'
+       ])->name('students.exams.active');
+
+       Route::get('future',[
+           StudentController::class,'futureExams'
+       ])->name('students.exams.future');
+
+       Route::post('/{id}/questions/{question_number}',[
+           TestController::class,'question'
+       ])->middleware('exam')->name('student.exam');
+
+
+       Route::post('/{id}/questions',[
+           TestController::class,'endExam'
+       ])->name('student.exam.end');
+
+       Route::prefix('results')->group(function () {
+          Route::get('/',[
+
+          ])->name('students.exams.result.index');
+
+          Route::get('/{id}',[
+
+          ])->name('students.exams.result.show');
+       });
+    });
 
 });

@@ -6,6 +6,8 @@ use App\Models\Course;
 use App\Models\CourseStudent;
 use App\Models\Instructor;
 use App\Models\Student;
+use App\Notifications\AddToCourse;
+use App\Notifications\DeletedFromCourse;
 use Carbon\Carbon;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -42,6 +44,7 @@ class CourseController extends Controller
             'started_at' => $validate['started_at'],
             'ended_at' => $validate['ended_at'],
         ])){
+            Instructor::find($validate['instructor_id'])->notify(new AddToCourse(Course::where('unique_id',$validate['unique_id'])->first()));
             return redirect(route('admin.courses.active'))
                 ->with('success', 'the course is successfully created');
 
@@ -98,7 +101,9 @@ class CourseController extends Controller
 
     public function deleteStudent(Request $request,$id)
     {
+        $course = Course::find($id);
         CourseStudent::where('course_id',$id)->where('student_id',$request->student_id)->delete();
+        Student::find($request->student_id)->notify(new DeletedFromCourse($course));
         return redirect()
             ->back()
             ->with('success', 'the student successfully deleted');
@@ -113,7 +118,12 @@ class CourseController extends Controller
                 ->with('error', 'student already exist!');
         }
         if(Student::find($request->student_id)){
-            $course->students()->attach($request->student);
+//            $course->students()->attach($request->student);
+            CourseStudent::create([
+                'course_id' => $id,
+                'student_id' =>$request->student_id
+            ]);
+            Student::find($request->student_id)->notify(new AddToCourse($course));
             return redirect()
                 ->back()
                 ->with('success', 'the student successfully added!');

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class ChangeStartedAtDataType extends Migration
+class AddScoreToAnswers extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,8 @@ class ChangeStartedAtDataType extends Migration
      */
     public function up()
     {
-        Schema::table('courses', function (Blueprint $table) {
-            $table->date('started_at')->change();
-            $table->date('ended_at')->change();
+        Schema::table('answers', function (Blueprint $table) {
+            $table->string('score')->nullable();
         });
     }
 
@@ -26,9 +25,8 @@ class ChangeStartedAtDataType extends Migration
      */
     public function down()
     {
-        Schema::table('courses', function (Blueprint $table) {
-            $table->dateTime('started_at')->change();
-            $table->dateTime('ended_at')->change();
+        Schema::table('answers', function (Blueprint $table) {
+            //
         });
     }
 }

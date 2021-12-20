@@ -22,6 +22,11 @@
 
             <!-- Navbar-->
             <ul class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+            <a href="{{route('instructors.notifications')}}" class="btn btn-primary">
+                Notifications <span class="badge bg-secondary">{{Auth::user()->unreadNotifications()->where('deleted_at',null)->count()}}</span>
+            </a>
+            </ul>
+            <ul class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
@@ -73,9 +78,6 @@
                                                     <a class="nav-link" href="{{route('instructors.questions.create.multipleChoice')}}">Create Question</a>
                                                 </nav>
                                             </div>
-                                        <a class="nav-link" href="{{route('admin.instructors.inactive')}}">inactive Instructors</a>
-                                        <a class="nav-link" href="{{route('admin.search.instructors.form')}}">Search Instructions</a>
-                                        <a class="nav-link" href="{{route('admin.new.instructors')}}">New Instructors</a>
                                     </nav>
                                 </div>
                         </div>
