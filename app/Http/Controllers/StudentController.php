@@ -70,7 +70,7 @@ class StudentController extends Controller
         return view('dashboard.students.exams.future',['results'=>$exams,'scores'=>$default]);
     }
 
-    public function activeExams()
+    public function activeExams(): Factory|View|Application
     {
         $user = Auth::user();
         $courses = $user->courses()->get();

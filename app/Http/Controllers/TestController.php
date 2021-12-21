@@ -64,14 +64,27 @@ class TestController extends Controller
         $questions = ($exam->questions()->get()->toArray());
         $question = $questions[$question_number - 1];
         $result = Result::query()->where('test_id',$id)->where('student_id',Auth::user()->id)->first();
+        $answer = Answer::query()->where('result_id',$result->id)->where('question_id',$question['id'])->first();
         if(isset($request->answer)){
             $this->saveAnswers($request->question_id,$result->id,$request->answer,$id);
         }
         if($question['question_type_id'] == 1){
-            return view('dashboard.students.questions.descriptive',['questions'=>$questions,'question'=>$question,'exam'=>$exam,'question_number' => $question_number]);
+            return view('dashboard.students.questions.descriptive',[
+                'questions'=>$questions,
+                'question'=>$question,
+                'exam'=>$exam,
+                'question_number' => $question_number,
+                'currentAnswer' => $answer,
+            ]);
         }
         if($question['question_type_id'] == 2){
-            return view('dashboard.students.questions.multiple',['questions'=>$questions,'question'=>$question,'exam'=>$exam,'question_number' => $question_number]);
+            return view('dashboard.students.questions.multiple',[
+                'questions'=>$questions,
+                'question'=>$question,
+                'exam'=>$exam,
+                'question_number' => $question_number,
+                'currentAnswer' => $answer,
+            ]);
         }
     }
 

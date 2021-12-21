@@ -22,7 +22,7 @@ students
             </div>
             <hr>
             <div class="form-floating mb-3">
-                <textarea class="form-control" name="answer" id="inputDescription"></textarea>
+                <textarea class="form-control" name="answer" id="inputDescription">{{$currentAnswer->answer}}</textarea>
                 <label for="inputDescription" class="form-label">Answer</label>
             </div>
                 <input type="hidden" name="question_id" value="{{$question['id']}}">
@@ -40,7 +40,7 @@ students
             </div>
             <hr>
             <div class="form-floating mb-3">
-                <textarea class="form-control" name="answer" id="inputDescription"></textarea>
+                <textarea class="form-control" name="answer" id="inputDescription">{{$currentAnswer->answer}}</textarea>
                 <label for="inputDescription" class="form-label">Answer</label>
             </div>
                 <input type="hidden" name="question_id" value="{{$question['id']}}">
