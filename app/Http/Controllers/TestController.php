@@ -112,6 +112,8 @@ class TestController extends Controller
     public function questionBank($id): Factory|View|Application
     {
         $exam = Test::find($id);
+//        $course = $exam->course()->get();
+//        $exams = $course->tests()->get();
         $questions = Auth::user()->questions()->get();
         return view('dashboard.instructors.questions.select',['exam' => $exam,'results' => $questions]);
     }
@@ -148,7 +150,7 @@ class TestController extends Controller
             'endTime' => ['required',],
             'endDate' => ['required','date','date_format:Y-m-d','after_or_equal:date'],
         ])->validated();
-        $validate['datetime'] = $validate['date'].'T'.$validate['time'];
+        $validate['datetime'] = $validate['date'].' '.$validate['time'];
         unset($validate['date']);
         unset($validate['time']);
         $validate['endtime'] = $validate['endDate'].' '.$validate['endTime'].':00';

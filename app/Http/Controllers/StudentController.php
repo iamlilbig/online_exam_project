@@ -91,9 +91,10 @@ class StudentController extends Controller
         return view('dashboard.students.exams.active',['results'=>$exams,'scores'=>$default]);
     }
 
-    public function exams($id)
+    public function exams(Course $course)
     {
-        $exams = (Course::find($id))->tests()->where('endtime','>',Carbon::now())->where('datetime','<',Carbon::now())->get();
+        $exams = $course->tests()->where('endtime','>',Carbon::now())->where('datetime','<',Carbon::now())->get();
+
         $default = [];
             foreach($exams as $exam) {
                 $sum = 0;

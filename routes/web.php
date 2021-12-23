@@ -354,7 +354,7 @@ Route::prefix('students')->middleware('auth:student')->group(function () {
            StudentController::class,'courses'
        ])->name('students.courses');
 
-       Route::get('{id}/exams',[
+       Route::get('{course}/exams',[
            StudentController::class,'exams'
        ])->name('students.courses.exams');
     });

@@ -29,7 +29,7 @@ My Courses
         <td>{{$result->description}}</td>
         <td>{{$result->started_at}}</td>
         <td>{{$result->ended_at}}</td>
-        <td><a class="btn btn-info" href="{{route('students.courses.exams',['id'=>$result->id,'question_number'=>1])}}">Exams</td>
+        <td><a class="btn btn-info" href="{{route('students.courses.exams',['course'=>$result->id,'question_number'=>1])}}">Exams</td>
     </tr>
     @endforeach
 </tbody>

@@ -25,16 +25,16 @@ students
             @foreach ($question['answers'] as $key => $answer)
             @if($currentAnswer !== null && $currentAnswer->answer == $key+1)
             <div class="form-check mb-3">
-                <input class="form-check-input" value="{{$key + 1}}" type="radio" name="answer" id="flexRadioDefault1" checked>
-                <label class="form-check-label" for="flexRadioDefault1">
+                <input class="form-check-input" value="{{$key + 1}}" type="radio" name="answer" id="flexRadioDefault{{$key + 1}}" checked>
+                <label class="form-check-label" for="flexRadioDefault{{$key + 1}}">
                     {{$answer}}
                 </label>
             </div>
             <hr>@continue
             @endif
             <div class="form-check mb-3">
-                <input class="form-check-input" value="{{$key + 1}}" type="radio" name="answer" id="flexRadioDefault1">
-                <label class="form-check-label" for="flexRadioDefault1">
+                <input class="form-check-input" value="{{$key + 1}}" type="radio" name="answer" id="flexRadioDefault{{$key + 1}}">
+                <label class="form-check-label" for="flexRadioDefault{{$key + 1}}">
                     {{$answer}}
                 </label>
             </div>
@@ -57,16 +57,16 @@ students
             @foreach ($question['answers'] as $key => $answer)
             @if($currentAnswer !== null && $currentAnswer->answer == $key+1)
             <div class="form-check mb-3">
-                <input class="form-check-input" value="{{$key + 1}}" type="radio" name="answer" id="flexRadioDefault1" checked>
-                <label class="form-check-label" for="flexRadioDefault1">
+                <input class="form-check-input" value="{{$key + 1}}" type="radio" name="answer" id="flexRadioDefault{{$key + 1}}" checked>
+                <label class="form-check-label" for="flexRadioDefault{{$key + 1}}">
                     {{$answer}}
                 </label>
             </div>
             <hr>@continue
             @endif
             <div class="form-check mb-3">
-                <input class="form-check-input" value="{{$key + 1}}" type="radio" name="answer" id="flexRadioDefault1">
-                <label class="form-check-label" for="flexRadioDefault1">
+                <input class="form-check-input" value="{{$key + 1}}" type="radio" name="answer" id="flexRadioDefault{{$key + 1}}">
+                <label class="form-check-label" for="flexRadioDefault{{$key + 1}}">
                     {{$answer}}
                 </label>
             </div>
