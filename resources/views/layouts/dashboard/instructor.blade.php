@@ -62,6 +62,18 @@
                                         <a class="nav-link" href="{{route('instructors.exams.create')}}">Create Test</a>
                                     </nav>
                                 </div>
+                                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseResult" aria-expanded="false" aria-controls="pagesCollapseResult">
+                                    Results
+                                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                                </a>
+                                <div class="collapse" id="pagesCollapseResult" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
+                                    <nav class="sb-sidenav-menu-nested nav">
+                                        <a class="nav-link" href="{{route('instructors.results.checked')}}">Checked Results</a>
+                                        <a class="nav-link" href="{{route('instructors.results.unchecked')}}">Not Checked Results</a>
+                                        <a class="nav-link" href="{{route('instructors.results.sent')}}">Sent Result Exam</a>
+                                        <a class="nav-link" href="{{route('instructors.results.unsent')}}">Not Sent Result Exam</a>
+                                    </nav>
+                                </div>
                                 <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseError" aria-expanded="false" aria-controls="pagesCollapseError">
                                     Questions
                                     <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
@@ -80,6 +92,8 @@
                                             </div>
                                     </nav>
                                 </div>
+
+
                         </div>
                     </div>
                     <div class="sb-sidenav-footer">

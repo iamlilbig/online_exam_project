@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\InstructorController;
 use App\Http\Controllers\QuestionController;
+use App\Http\Controllers\ResultController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TestController;
 use Illuminate\Support\Facades\Auth;
@@ -210,6 +211,35 @@ Route::prefix('instructors')->middleware('auth:instructor')->group(function () {
     Route::get('/',[
         InstructorController::class,'dashboard'
     ])->name('instructors.home');
+
+    Route::prefix('results')->group(function(){
+
+        Route::prefix('checked')->group(function(){
+            Route::get('/',[
+                ResultController::class,'checked'
+            ])->name('instructors.results.checked');
+        });
+
+        Route::prefix('unchecked')->group(function(){
+            Route::get('/',[
+                ResultController::class,'unchecked'
+            ])->name('instructors.results.unchecked');
+        });
+
+        Route::prefix('sent')->group(function(){
+            Route::get('/',[
+                ResultController::class,'sent'
+            ])->name('instructors.results.sent');
+        });
+
+        Route::prefix('unsent')->group(function(){
+            Route::get('/',[
+                ResultController::class,'unsent'
+            ])->name('instructors.results.unsent');
+        });
+
+
+    });
 
     Route::get('/notifications',[
         InstructorController::class,'notifications'
