@@ -68,8 +68,6 @@
                                 </a>
                                 <div class="collapse" id="pagesCollapseResult" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
                                     <nav class="sb-sidenav-menu-nested nav">
-                                        <a class="nav-link" href="{{route('instructors.results.checked')}}">Checked Results</a>
-                                        <a class="nav-link" href="{{route('instructors.results.unchecked')}}">Not Checked Results</a>
                                         <a class="nav-link" href="{{route('instructors.results.sent')}}">Sent Result Exam</a>
                                         <a class="nav-link" href="{{route('instructors.results.unsent')}}">Not Sent Result Exam</a>
                                     </nav>

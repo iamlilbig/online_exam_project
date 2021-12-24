@@ -214,28 +214,30 @@ Route::prefix('instructors')->middleware('auth:instructor')->group(function () {
 
     Route::prefix('results')->group(function(){
 
-        Route::prefix('checked')->group(function(){
-            Route::get('/',[
-                ResultController::class,'checked'
-            ])->name('instructors.results.checked');
-        });
-
-        Route::prefix('unchecked')->group(function(){
-            Route::get('/',[
-                ResultController::class,'unchecked'
-            ])->name('instructors.results.unchecked');
-        });
-
         Route::prefix('sent')->group(function(){
             Route::get('/',[
                 ResultController::class,'sent'
             ])->name('instructors.results.sent');
+
+            Route::get('/{test}',[
+                ResultController::class,'showSent'
+            ])->name('instructors.results.sent.show');
         });
 
         Route::prefix('unsent')->group(function(){
-            Route::get('/',[
+            Route::get('/index',[
                 ResultController::class,'unsent'
             ])->name('instructors.results.unsent');
+
+            Route::get('/{test}/show',[
+                ResultController::class,'show'
+            ])->name('instructors.results.unsent.show');
+
+            Route::put('/{test}',[
+                ResultController::class,'send'
+            ])->name('instructors.results.unsent.send');
+
+
         });
 
 

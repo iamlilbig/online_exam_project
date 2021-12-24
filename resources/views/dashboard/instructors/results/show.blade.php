@@ -1,7 +1,8 @@
 @extends('layouts.dashboard.instructor')
 @section('pageName')
-    Sent Results
+    unSent Result
 @endsection
+
 @section('content')
 
     @if (\Session::has('success'))

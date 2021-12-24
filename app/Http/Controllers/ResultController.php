@@ -14,31 +14,33 @@ class ResultController extends Controller
 {
     public function sent(): Factory|View|Application
     {
-        $results = Auth::user()->tests()->with('results')->get()->where('is_sent',0);
+        $results = Auth::user()->tests()->where('is_sent',1)->withCount('results')->get();
         return view('dashboard.instructors.results.sent',['results' => $results]);
     }
 
     public function unsent(): Factory|View|Application
     {
-        $results = Auth::user()->tests()->with('results')->get()->where('is_sent',0);
-        return view('dashboard.instructors.results.sent',['results' => $results]);
+        $results = Auth::user()->tests()->where('endtime','<',now())->where('is_sent',0)->withCount('results')->get();
+        return view('dashboard.instructors.results.unsent',['results' => $results]);
     }
 
-    public function unchecked(): Factory|View|Application
+    public function show(Test $test)
     {
-        $results = Auth::user()
-            ->tests()
-            ->where('endtime','>',now())
-            ->where('is_sent',0)->get();
-        return view('dashboard.instructors.results.unchecked',['results' => $results]);
+        dd('show');
+        $results = $test->results()->get();
+        return view('dashboard.instructors.results.sent',['results'=>$results]);
     }
 
-    public function checked(): Factory|View|Application
+    public function showSent(Test $test)
     {
-        $results = Auth::user()
-            ->tests()
-            ->where('endtime','>',now())
-            ->where('is_sent',1)->get();
-        return view('dashboard.instructors.results.unchecked',['results' => $results]);
+        dd('show sent');
+        $results = $test->results()->get();
+        return view('dashboard.instructors.results.showsent',['results'=>$results]);
     }
+
+    public function send(Test $test)
+    {
+        dd('send');
+    }
+
 }
