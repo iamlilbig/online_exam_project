@@ -30,11 +30,11 @@
                 <thead>
                 <tr>
                     <th scope="col">id</th>
-                    <th scope="col">name</th>
-                    <th scope="col">start</th>
-                    <th scope="col">end</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Start</th>
+                    <th scope="col">End</th>
                     <th scope="col">is checked</th>
-                    <th scope="col">show</th>
+                    <th scope="col">Check</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -46,11 +46,11 @@
                             <td>{{$result->created_at}}</td>
                             <td>{{$result->ended_at}}</td><td>
                             @if($result->is_checked  == 1)
-                                <button type="button" class="btn btn-success" disabled>Check</button>
+                                <div class="btn btn-success">Checked</div>
                             @else
-                                <button type="button" class="btn btn-danger" disabled>Not Check</button>
+                                <div class="btn btn-danger">Not Check</div>
                             @endif
-                            </td><td><input type="submit" value="show" class="btn btn-primary"></td>
+                            </td><td><input type="submit" value="Check" class="btn btn-primary"></td>
                         </tr>
                     </form>
                 @endforeach
