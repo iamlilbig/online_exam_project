@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Answer;
 use App\Models\Result;
 use App\Models\Test;
 use Illuminate\Contracts\Foundation\Application;
@@ -44,7 +45,6 @@ class ResultController extends Controller
                 return $tests->find($result->test_id);
             })->get();
         })->get();
-
         $student = $result->student()->first();
         return view('dashboard.instructors.results.check',['results'=>$results,'student'=>$student]);
     }
@@ -54,6 +54,31 @@ class ResultController extends Controller
         $results = $result->answers()->with('question')->get();
         $student = $result->student();
         return view('dashboard.instructors.results.checked',['results'=>$results,'student'=>$student]);
+    }
+
+    public function checking(Request $request,Result $result)
+    {
+        $answers = $result->answers()->with('question',function($question){
+            return $question->where('question_type_id','1')->get();
+        })->get();
+
+        foreach($request->score as $key => $value){
+            if($value == null){
+                return redirect()
+                    ->back()
+                    ->with('error','enter score of questions' );
+            }
+            if($value > $request->default_score[$key]){
+                return redirect()
+                    ->back()
+                    ->with('error','score must be lesser than default score' );
+            }
+            Answer::query()->find($request->answer_id[$key])->update([
+                'score' => $value
+            ]);
+        }
+
+
     }
 
     public function send(Test $test)

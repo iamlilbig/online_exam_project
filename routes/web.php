@@ -244,6 +244,10 @@ Route::prefix('instructors')->middleware('auth:instructor')->group(function () {
             Route::get('/{result}/check',[
                 ResultController::class,'check'
             ])->name('instructors.results.unsent.check');
+
+            Route::post('/{result}/check',[
+                ResultController::class,'checking'
+            ])->name('instructors.results.unsent.checking');
         });
 
 
