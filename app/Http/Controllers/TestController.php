@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Answer;
+use App\Models\Course;
 use App\Models\Instructor;
 use App\Models\Question;
 use App\Models\Result;
 use App\Models\Test;
+use App\Notifications\ExamStarting;
 use Auth;
 use Carbon\Carbon;
 use Illuminate\Contracts\Foundation\Application;
@@ -190,7 +192,14 @@ class TestController extends Controller
         $validate['endtime'] = $validate['endDate'].' '.$validate['endTime'].':00';
         unset($validate['endDate']);
         unset($validate['endTime']);
-        if(Test::query()->create($validate)){
+//        dd(intval(env('STUDENT_NOTIFICATION_DELAY')));
+
+        if($test = Test::query()->create($validate)){
+            $students = Course::find($request->course_id)->students()->get();
+            $datetime = new Carbon($test->datetime);
+            foreach ($students as $student) {
+                $student->notify((new ExamStarting($test))->delay($datetime->subMinutes(strval(env('STUDENT_NOTIFICATION_DELAY')))));
+            }
             return redirect()
                 ->route('instructors.exams.active')
                 ->with('success', 'the exam is successfully created');
