@@ -196,9 +196,9 @@ class TestController extends Controller
 
         if($test = Test::query()->create($validate)){
             $students = Course::find($request->course_id)->students()->get();
-            $datetime = new Carbon($test->datetime);
+            $datetime = (new Carbon($test->datetime))->subMinutes(strval(env('STUDENT_NOTIFICATION_DELAY')));
             foreach ($students as $student) {
-                $student->notify((new ExamStarting($test))->delay($datetime->subMinutes(strval(env('STUDENT_NOTIFICATION_DELAY')))));
+                $student->notify((new ExamStarting($test))->delay($datetime));
             }
             return redirect()
                 ->route('instructors.exams.active')
