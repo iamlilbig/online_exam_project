@@ -77,8 +77,15 @@ class ResultController extends Controller
                 'score' => $value
             ]);
         }
+        $total = $result->answers()->sum('score');
+        $result->update([
+            'score' => $total,
+            'is_checked' => 1,
+        ]);
 
-
+        return redirect()
+            ->route('instructors.results.unsent.show',['test' => $result->test])
+            ->with('success','result is checked!');
     }
 
     public function send(Test $test)

@@ -16,6 +16,7 @@ class Result extends Model
         'student_id',
         'score',
         'ended_at',
+        'is_checked',
     ];
 
     public function student(): BelongsTo
