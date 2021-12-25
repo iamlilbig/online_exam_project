@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Result;
 use App\Models\Test;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -20,22 +21,39 @@ class ResultController extends Controller
 
     public function unsent(): Factory|View|Application
     {
-        $results = Auth::user()->tests()->where('endtime','<',now())->where('is_sent',0)->withCount('results')->get();
+        $results = Auth::user()->tests()->where('endtime','<',now())->whereNull('is_sent')->withCount('results')->get();
         return view('dashboard.instructors.results.unsent',['results' => $results]);
     }
 
     public function show(Test $test)
     {
-        dd('show');
-        $results = $test->results()->get();
-        return view('dashboard.instructors.results.sent',['results'=>$results]);
+        $results = $test->results()->with('student')->get();
+        return view('dashboard.instructors.results.show',['results'=>$results]);
     }
 
     public function showSent(Test $test)
     {
-        dd('show sent');
-        $results = $test->results()->get();
+        $results = $test->results()->with('student')->get();
         return view('dashboard.instructors.results.showsent',['results'=>$results]);
+    }
+
+    public function check(Result $result)
+    {
+        $results = $result->answers()->with('question',function($question) use ($result) {
+            return $question->with('tests',function($tests) use ($result) {
+                return $tests->find($result->test_id);
+            })->get();
+        })->get();
+
+        $student = $result->student()->first();
+        return view('dashboard.instructors.results.check',['results'=>$results,'student'=>$student]);
+    }
+
+    public function checked(Result $result)
+    {
+        $results = $result->answers()->with('question')->get();
+        $student = $result->student();
+        return view('dashboard.instructors.results.checked',['results'=>$results,'student'=>$student]);
     }
 
     public function send(Test $test)

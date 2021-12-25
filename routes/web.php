@@ -222,6 +222,10 @@ Route::prefix('instructors')->middleware('auth:instructor')->group(function () {
             Route::get('/{test}',[
                 ResultController::class,'showSent'
             ])->name('instructors.results.sent.show');
+
+            Route::get('/{result}/checked',[
+                ResultController::class,'checked'
+            ])->name('instructors.results.sent.checked');
         });
 
         Route::prefix('unsent')->group(function(){
@@ -229,7 +233,7 @@ Route::prefix('instructors')->middleware('auth:instructor')->group(function () {
                 ResultController::class,'unsent'
             ])->name('instructors.results.unsent');
 
-            Route::get('/{test}/show',[
+            Route::get('/{test}',[
                 ResultController::class,'show'
             ])->name('instructors.results.unsent.show');
 
@@ -237,7 +241,9 @@ Route::prefix('instructors')->middleware('auth:instructor')->group(function () {
                 ResultController::class,'send'
             ])->name('instructors.results.unsent.send');
 
-
+            Route::get('/{result}/check',[
+                ResultController::class,'check'
+            ])->name('instructors.results.unsent.check');
         });
 
 

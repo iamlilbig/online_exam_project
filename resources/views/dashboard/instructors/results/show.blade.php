@@ -30,28 +30,20 @@
                 <thead>
                 <tr>
                     <th scope="col">id</th>
-                    <th scope="col">title</th>
-                    <th scope="col">description</th>
-                    <th scope="col">course id</th>
-                    <th scope="col">count of students</th>
-                    <th scope="col">duration</th>
-                    <th scope="col">start time</th>
-                    <th scope="col">end time</th>
+                    <th scope="col">name</th>
+                    <th scope="col">start</th>
+                    <th scope="col">end</th>
                     <th scope="col">show</th>
                 </tr>
                 </thead>
                 <tbody>
                 @foreach($results as $result)
-                    <form method="get" action="{{route('instructors.results.sent.show',['test'=>$result->id])}}">
+                    <form method="get" action="{{route('instructors.results.unsent.check',['result'=>$result->id])}}">
                         <tr>
-                            <th scope="row">{{$result->id}}</th>
-                            <td>{{$result->title}}</td>
-                            <td>{{$result->description}}</td>
-                            <td>{{$result->course_id}}</td>
-                            <td>{{$result->results_count}}</td>
-                            <td>{{$result->duration}}</td>
-                            <td>{{$result->datetime}}</td>
-                            <td>{{$result->endtime}}</td>
+                            <th scope="row">{{$result->student->id}}</th>
+                            <td>{{$result->student->name}}</td>
+                            <td>{{$result->created_at}}</td>
+                            <td>{{$result->ended_at}}</td>
                             <td><input type="submit" value="show" class="btn btn-primary"></td>
                         </tr>
                     </form>
@@ -65,7 +57,7 @@
                         <div class="card shadow-lg border-0 rounded-lg mt-5 bg-dark text-white">
                             <div class="bg-dark card-header">
                                 <h3 class="text-center font-weight-light my-4">
-                                    no checked exams
+                                    no student exist!
                                 </h3>
                             </div>
                         </div>
