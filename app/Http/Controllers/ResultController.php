@@ -43,7 +43,7 @@ class ResultController extends Controller
         $results = $result->answers()->with('question',function($question) use ($result) {
             return $question->with('tests',function($tests) use ($result) {
                 return $tests->find($result->test_id);
-            })->get();
+            })->where('question_type_id',1)->get();
         })->get();
         $student = $result->student()->first();
         return view('dashboard.instructors.results.check',['results'=>$results,'student'=>$student]);

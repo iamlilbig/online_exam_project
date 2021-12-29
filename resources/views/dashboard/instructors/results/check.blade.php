@@ -80,7 +80,9 @@
                 </thead>
                 <tbody>
                 @foreach($results as $result)
-                    <tr>
+                    <tr>@if($result->question == null)
+                            @continue
+                        @endif
                         <th scope="row">{{$loop->iteration}}</th>
                         <th>{{$result->question->title}}</th>
                         <td>{{$result->question->content}}</td>
